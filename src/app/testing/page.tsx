@@ -16,6 +16,7 @@ const Page = () => {
           CLICK TO TYPE
         </p>
         
+        {/* BEGINNING OF FORM FIELD TO SEND DATA TO API */}
         <input
           className="text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none appearance-none w-[432px]  pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-2"
           placeholder="Introduce Yourself"
@@ -26,26 +27,27 @@ const Page = () => {
           <Image
             src={DiamondLarge}
             alt="Diamond Large"
-            width={762} // Explicitly set the width
-            height={762} // Explicitly set the height
+            width={762}
+            height={762}
             className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2"
           ></Image>
           <Image
             src={DiamondMedium}
             alt="Diamond Medium"
-            width={682} // Explicitly set the width
-            height={682} // Explicitly set the height
+            width={682}
+            height={682}
             className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2"
           ></Image>
           <Image
             src={DiamondSmall}
             alt="Diamond Small"
-            width={602} // Explicitly set the width
-            height={602} // Explicitly set the height
+            width={602}
+            height={602}
             className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2"
           ></Image>
         
       </div>
+      {/* BACK BUTTON */}
       <div className="absolute bottom-10 w-full flex justify-between px-10">
         <div className="relative w-12 h-12 left-4 flex items-center justify-center border border-[#A0A4AB] rotate-45 scale-[0.85]">
           <span className="absolute rotate-[-45deg] text-xs font-semibold">
@@ -54,6 +56,9 @@ const Page = () => {
         </div>
         <Link className="absolute inset-0" aria-label="Back" href="/"></Link>
       </div>
+
+
+      
       <div
         role="region"
         aria-label="Notifications (F8)"
