@@ -1,15 +1,34 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import Nav from "./components/Nav";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const roobert = localFont({
+  src: [
+    {
+      path: "./assets/fonts/RoobertTRIAL-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    {
+      path: "./assets/fonts/RoobertTRIAL-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+
+    {
+      path: "./assets/fonts/RoobertTRIAL-SemiBold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+
+    {
+      path: "./assets/fonts/RoobertTRIAL-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -24,9 +43,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${roobert.className} antialiased `}>
+        <Nav />
         {children}
       </body>
     </html>
