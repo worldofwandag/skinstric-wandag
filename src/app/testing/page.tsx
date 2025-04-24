@@ -16,7 +16,7 @@ type State = {
     location?: string[];
   };
   message?: string;
-  success?: boolean;
+  success?: string | boolean;
   step?: number;
   name?: string;
   location?: string;
@@ -100,26 +100,29 @@ async function submitForm(prevState: State, formData: FormData): Promise<State> 
           }),
         }
       );
-      
+    
       const result = await response.json();
-      console.log("API Response:", result);
-      
-      // Check for success message - API appears to return success/message instead of SUCCESS
+      console.log("Full API Response:", result); // Log the full response
+    
+      // Check for success
       if (result.success) {
+        console.log("Success Message:", result.message); // Log the success message
+        console.log(`SUCCESS: Added ${name} from ${location}`); // Log the custom success message
         return {
           step: 3,
           name,
           location: location.trim(),
-          success: true,
-          message: result.message
+          success: `SUCCESS: Added ${name} from ${location}`,
+          message: result.message,
         };
       } else {
+        console.error("API Error:", result);
         return {
           ...prevState,
           step: 2,
           errors: {
-            location: ["There was a problem with your submission. Please try again."]
-          }
+            location: ["There was a problem with your submission. Please try again."],
+          },
         };
       }
     } catch (error) {
@@ -128,10 +131,12 @@ async function submitForm(prevState: State, formData: FormData): Promise<State> 
         ...prevState,
         step: 2,
         errors: {
-          location: ["There was a problem with your submission. Please try again."]
-        }
+          location: ["There was a problem with your submission. Please try again."],
+        },
       };
     }
+
+
   }
   
   return prevState;
@@ -254,17 +259,7 @@ export default function Page() {
         )}
       </div>
       
-      <div
-        role="region"
-        aria-label="Notifications (F8)"
-        tab-index="-1"
-        className="pointer-events-auto"
-      >
-        <ol
-          tab-index="-1"
-          className="fixed top-4 right-4 z-[100] flex max-h-screen w-full flex-col p-4 max-w-[300px] md:max-w-[420px]"
-        ></ol>
-      </div>
+      
     </div>
   );
 }
