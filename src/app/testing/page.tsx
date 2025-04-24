@@ -182,10 +182,10 @@ function FormInput({ error }: { error?: string[] }) {
 // Loading Dots component
 function LoadingDots() {
   return (
-    <div className="flex items-center justify-center space-x-2 py-8">
-      <div className="w-4 h-4 rounded-full bg-gray-800 animate-[bounce_1s_infinite_0ms] opacity-70"></div>
-      <div className="w-4 h-4 rounded-full bg-gray-800 animate-[bounce_1s_infinite_250ms] opacity-70"></div>
-      <div className="w-4 h-4 rounded-full bg-gray-800 animate-[bounce_1s_infinite_500ms] opacity-70"></div>
+    <div className="flex items-center justify-center space-x-4 py-8">
+      <div className="w-2 h-2 rounded-full bg-gray-800 animate-[bounce_1s_infinite_0ms] opacity-30"></div>
+      <div className="w-2 h-2 rounded-full bg-gray-800 animate-[bounce_1s_infinite_250ms] opacity-30"></div>
+      <div className="w-2 h-2 rounded-full bg-gray-800 animate-[bounce_1s_infinite_500ms] opacity-30"></div>
     </div>
   );
 }
