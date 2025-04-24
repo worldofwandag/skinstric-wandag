@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useTransition } from "react";
 import Image from "next/image";
 import DiamondLarge from "../assets/ui/Diamond-light-large.png";
 import DiamondMedium from "../assets/ui/Diamond-medium-medium.png";
@@ -68,8 +68,68 @@ async function submitForm(
   if (step === 2) {
     const location = formData.get("location") as string;
     const name = prevState.name || "";
+    
+    // Check if this is an API call submission
+    const isApiCall = formData.get("apiCall") === "true";
 
-    // Validate location (no numbers or special characters)
+    if (isApiCall) {
+      // Make the API call
+      try {
+        const response = await fetch(
+          "https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseOne",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name,
+              location: prevState.location,
+            }),
+          }
+        );
+
+        const result = await response.json();
+        console.log("Full API Response:", result);
+
+        // Check for success
+        if (result.success) {
+          console.log("Success Message:", result.message);
+          console.log(`SUCCESS: Added ${name} from ${prevState.location}`);
+          return {
+            step: 3,
+            name,
+            location: prevState.location,
+            success: `SUCCESS: Added ${name} from ${prevState.location}`,
+            message: result.message,
+          };
+        } else {
+          console.error("API Error:", result);
+          return {
+            ...prevState,
+            step: 2,
+            errors: {
+              location: [
+                "There was a problem with your submission. Please try again.",
+              ],
+            },
+          };
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        return {
+          ...prevState,
+          step: 2,
+          errors: {
+            location: [
+              "There was a problem with your submission. Please try again.",
+            ],
+          },
+        };
+      }
+    }
+
+    // Normal form validation flow
     if (!location || location.trim() === "") {
       return {
         ...prevState,
@@ -92,60 +152,12 @@ async function submitForm(
       };
     }
 
-    // Submit to API
-    try {
-      const response = await fetch(
-        "https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseOne",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            location: location.trim(),
-          }),
-        }
-      );
-
-      const result = await response.json();
-      console.log("Full API Response:", result); // Log the full response
-
-      // Check for success
-      if (result.success) {
-        console.log("Success Message:", result.message); // Log the success message
-        console.log(`SUCCESS: Added ${name} from ${location}`); // Log the custom success message
-        return {
-          step: 3,
-          name,
-          location: location.trim(),
-          success: `SUCCESS: Added ${name} from ${location}`,
-          message: result.message,
-        };
-      } else {
-        console.error("API Error:", result);
-        return {
-          ...prevState,
-          step: 2,
-          errors: {
-            location: [
-              "There was a problem with your submission. Please try again.",
-            ],
-          },
-        };
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      return {
-        ...prevState,
-        step: 2,
-        errors: {
-          location: [
-            "There was a problem with your submission. Please try again.",
-          ],
-        },
-      };
-    }
+    // Store location and keep in step 2
+    return {
+      ...prevState,
+      step: 2,
+      location: location.trim(),
+    };
   }
 
   return prevState;
@@ -167,12 +179,51 @@ function FormInput({ error }: { error?: string[] }) {
   );
 }
 
+// Loading Dots component
+function LoadingDots() {
+  return (
+    <div className="flex items-center justify-center space-x-2 py-8">
+      <div className="w-4 h-4 rounded-full bg-gray-800 animate-[bounce_1s_infinite_0ms] opacity-70"></div>
+      <div className="w-4 h-4 rounded-full bg-gray-800 animate-[bounce_1s_infinite_250ms] opacity-70"></div>
+      <div className="w-4 h-4 rounded-full bg-gray-800 animate-[bounce_1s_infinite_500ms] opacity-70"></div>
+    </div>
+  );
+}
+
 // Main Page component
 export default function Page() {
   const [state, formAction] = useActionState(submitForm, {
     step: 1,
     errors: {},
   });
+  
+  // Local loading state
+  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  
+  // Handle API call submission
+  const handleApiCall = React.useCallback(() => {
+    if (state.step === 2 && !loading && state.location) {
+      setLoading(true);
+      
+      // Set a timeout to show loading animation
+      setTimeout(() => {
+        startTransition(() => {
+          const apiFormData = new FormData();
+          apiFormData.append("apiCall", "true");
+          formAction(apiFormData);
+          setLoading(false);
+        });
+      }, 1500);
+    }
+  }, [state.step, state.location, loading, formAction]);
+  
+  // Trigger API call when location is set
+  React.useEffect(() => {
+    if (state.step === 2 && state.location && !loading && !isPending) {
+      handleApiCall();
+    }
+  }, [state.step, state.location, loading, isPending, handleApiCall]);
 
   return (
     <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center">
@@ -181,14 +232,22 @@ export default function Page() {
       </div>
 
       <div className="relative flex flex-col items-center justify-center mb-40 w-full h-full">
-        {state.step !== 3 && (
+        {state.step !== 3 && !loading && (
           <p className="text-sm text-gray-400 tracking-wider uppercase mb-1">
             CLICK TO TYPE
           </p>
         )}
 
+        {/* Loading State */}
+        {loading && (
+          <div className="relative z-10">
+            <p className="text-lg text-gray-500 mb-2">Processing submission</p>
+            <LoadingDots />
+          </div>
+        )}
+
         {/* Step 1: Name Input */}
-        {state.step === 1 && (
+        {state.step === 1 && !loading && (
           <form action={formAction} className="relative z-10">
             <FormInput error={state.errors?.name} />
             <input
@@ -206,7 +265,7 @@ export default function Page() {
         )}
 
         {/* Step 2: Location Input */}
-        {state.step === 2 && (
+        {state.step === 2 && !loading && !state.location && (
           <form action={formAction} className="relative z-10">
             <FormInput error={state.errors?.location} />
             <input
@@ -236,27 +295,27 @@ export default function Page() {
         )}
 
         {/* Diamond Background Images */}
-<Image
-  src={DiamondLarge}
-  alt="Diamond Large"
-  width={762}
-  height={762}
-  className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px]"
-/>
-<Image
-  src={DiamondMedium}
-  alt="Diamond Medium"
-  width={682}
-  height={682}
-  className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px]"
-/>
-<Image
-  src={DiamondSmall}
-  alt="Diamond Small"
-  width={602}
-  height={602}
-  className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[320px] h-[320px] md:w-[602px] md:h-[602px]"
-/>
+        <Image
+          src={DiamondLarge}
+          alt="Diamond Large"
+          width={762}
+          height={762}
+          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px]"
+        />
+        <Image
+          src={DiamondMedium}
+          alt="Diamond Medium"
+          width={682}
+          height={682}
+          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px]"
+        />
+        <Image
+          src={DiamondSmall}
+          alt="Diamond Small"
+          width={602}
+          height={602}
+          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[320px] h-[320px] md:w-[602px] md:h-[602px]"
+        />
       </div>
 
       {/* Buttons at bottom */}
