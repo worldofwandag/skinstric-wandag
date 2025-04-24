@@ -177,7 +177,7 @@ export default function Page() {
   return (
     <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center">
       <div className="absolute top-16 left-9 text-left">
-        <p className="text-black font-semibold text-xs">TO START ANALYSIS</p>
+        <p className="font-semibold text-xs">TO START ANALYSIS</p>
       </div>
 
       <div className="relative flex flex-col items-center justify-center mb-40 w-full h-full">

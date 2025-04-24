@@ -43,7 +43,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roobert.className} antialiased `}>
+      <body className={`${roobert.className} antialiased text-[#1A1B1C]`}>
         <Nav />
         {children}
       </body>
