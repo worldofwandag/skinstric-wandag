@@ -1,7 +1,15 @@
 @import "tailwindcss";
 
-
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
+.animate-spin-slow {
+  animation: spin 85s linear infinite;
+}
+.animate-spin-slower {
+  animation: spin 100s linear infinite;
+}
+.animate-spin-slowest {
+  animation: spin 110s linear infinite;
+}
