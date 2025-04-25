@@ -8,6 +8,8 @@ import DiamondSmall from "../assets/ui/Diamond-dark-small.png";
 import Link from "next/link";
 import { useFormStatus } from "react-dom";
 import { useActionState } from "react";
+import BackBtn from "../components/ui/BackBtn";
+import ProcessBtn from "../components/ui/ProcessBtn";
 
 // Define the initial state for the form
 type State = {
@@ -300,43 +302,39 @@ export default function Page() {
           alt="Diamond Large"
           width={762}
           height={762}
-          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px]"
+          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slow"
         />
         <Image
           src={DiamondMedium}
           alt="Diamond Medium"
           width={682}
           height={682}
-          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px]"
+          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px] animate-spin-slower"
         />
         <Image
           src={DiamondSmall}
           alt="Diamond Small"
           width={602}
           height={602}
-          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[320px] h-[320px] md:w-[602px] md:h-[602px]"
+          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[320px] h-[320px] md:w-[602px] md:h-[602px] animate-spin-slowest"
         />
       </div>
 
       {/* Buttons at bottom */}
       <div className="absolute bottom-10 w-full flex justify-between px-10">
         {/* BACK BUTTON */}
-        <div className="relative w-12 h-12 left-4 flex items-center justify-center border border-[#A0A4AB] rotate-45 scale-[0.85]">
-          <span className="absolute rotate-[-45deg] text-xs font-semibold">
-            BACK
-          </span>
-        </div>
-        <Link className="absolute inset-0" aria-label="Back" href="/"></Link>
+        
+        <Link className="inset-0" aria-label="Back" href="/">
+          <BackBtn />
+        </Link>
 
         {/* PROCESS BUTTON - only show when form is completed */}
         {state.step === 3 && (
           <Link
             href="/result"
-            className="relative w-12 h-12 right-4 flex items-center justify-center border border-[#A0A4AB] rotate-45 scale-[0.85]"
+            className=""
           >
-            <span className="absolute rotate-[-45deg] text-xs font-semibold">
-              PROCESS
-            </span>
+           <ProcessBtn />
           </Link>
         )}
       </div>

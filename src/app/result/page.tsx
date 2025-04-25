@@ -124,10 +124,10 @@ const Page = () => {
         <div className="w-24 h-24 md:w-32 md:h-32 border rounded overflow-hidden"></div>
       </div>
 
-      <div className="absolute bottom-10 w-full flex justify-between px-10">
+      <div className="bottom-10 w-full flex justify-between px-10">
         {/* BACK BUTTON */}
         {/* small screens */}
-        <Link className="relative inset-0 md:hidden" aria-label="Back" href="/">
+        <Link className="relative" aria-label="Back" href="/testing">
           <BackBtn />
         </Link>
 
@@ -135,20 +135,20 @@ const Page = () => {
 
         {/* small screens */}
         <Link href="/result" className="md:hidden">
-          <div className="relative w-12 h-12 right-4 flex items-center justify-center border border-[#A0A4AB] rotate-45 scale-[0.85] md:hidden">
-            <span className="absolute rotate-[-45deg] text-xs font-normal md:hidden tracking-tighter">
+          <div className="relative w-12 h-12 right-4 flex items-center justify-center border border-[#A0A4AB] rotate-45 scale-[0.85]">
+            <span className="absolute rotate-[-45deg] text-xs font-normal tracking-tighter">
               SUMMARY
             </span>
           </div>
         </Link>
 
-        {/* larges screens */}
-        <Link href="/result" className="hidden md:block">
+        {/* large screens */}
+        <Link href="/result" className="hidden md:flex">
           <div className="flex flex-row relative justify-center items-center">
-            <span className="text-sm font-semibold md:block mr-10">
+            <span className="text-sm font-semibold mr-10">
               GET SUMMARY
             </span>
-            <div className="relative w-12 h-12 right-4 flex items-center justify-center border border-[#A0A4AB] rotate-45 scale-[0.85] md:block" />
+            <div className="relative w-12 h-12 right-4 flex items-center justify-center border border-[#A0A4AB] rotate-45 scale-[0.85]" />
             <span className="absolute right-[30px] bottom-[13px] scale-[0.9]">
               ▶
             </span>
