@@ -9,6 +9,7 @@ import ResScanLine from "../assets/ui/ResScanLine.png";
 import galleryIcon from "../assets/ui/gallery-icon.png";
 import ResGalleryLine from "../assets/ui/ResGalleryLine.png";
 import BackBtn from "../components/ui/BackBtn";
+import ClientComponentBoundary from "../components/ClientComponentBoundary";
 
 const Page = () => {
   return (
@@ -48,7 +49,7 @@ const Page = () => {
               height={136}
             />
 
-            <div className="absolute bottom-[1%] right-[90px]  md:top-[30.9%] md:right-[-12px] translate-y-[-20px]">
+            <div className="absolute bottom-[1%] right-[90px] md:top-[30.9%] md:right-[-12px] translate-y-[-20px]">
               <p className="text-xs md:text-sm font-normal mt-1 leading-[24px]">
                 ALLOW A.I.
                 <br />
@@ -65,71 +66,23 @@ const Page = () => {
           </div>
         </div>
 
-        {/* RIGHT SIDE */}
-        <div className="relative md:absolute md:left-[50%] lg:left-[55%] xl:left-[60%] flex flex-col items-center cursor-pointer mt-12 md:mt-0 justify-center md:-translate-y-[0%] -translate-y-[10%]">
-          <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]" />
-
-          <Image
-            src={ResDiamondLarge}
-            alt="Diamond Large"
-            className="absolute w-[270px] h-[270px] md:w-[482px] md:h-[482px] animate-spin-slow"
-            
-          />
-          <Image
-            src={ResDiamondMedium}
-            alt="DiamondMedium"
-            className="absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slower"
-            
-          />
-          <Image
-            src={ResDiamondSmall}
-            alt="DiamondSmall"
-            className="absolute w-[190px] h-[190px] md:w-[405.18px] md:h-[405.18px] animate-spin-slowest"
-            
-          />
-
-          {/* PHOTO GALLERY UPLOAD  */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <Image
-              src={galleryIcon}
-              alt="Photo Upload Icon"
-              className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px]"
-              width={136}
-              height={136}
-            />
-            <div className="absolute top-[75%] md:top-[70%]  md:left-[17px] translate-y-[-10px]">
-              <p className="text-[12px] md:text-[14px] font-normal mt-2 leading-[24px] text-right">
-                ALLOW A.I.
-                <br />
-                ACCESS GALLERY
-              </p>
-              <Image
-                src={ResGalleryLine}
-                alt="Gallery Line"
-                className="absolute hidden md:block md:left-[120px] md:bottom-[39px]"
-                width={66.33}
-                height={59.37}
-              />
-            </div>
-          </div>
-        </div>
-        <input type="file" accept="image/*" className="hidden" />
-      </div>
-
-      <div className="absolute top-4 right-4 md:top-0 md:right-8">
-        <h1 className="text-xs md:text-sm font-extrabold mb-1">Preview</h1>
-        <div className="w-24 h-24 md:w-32 md:h-32 border rounded overflow-hidden"></div>
+        {/* RIGHT SIDE - Client Component Boundary */}
+        <ClientComponentBoundary 
+          galleryIcon={galleryIcon}
+          ResDiamondLarge={ResDiamondLarge}
+          ResDiamondMedium={ResDiamondMedium}
+          ResDiamondSmall={ResDiamondSmall}
+          ResGalleryLine={ResGalleryLine}
+        />
       </div>
 
       <div className="bottom-10 w-full flex justify-between px-10">
         {/* BACK BUTTON */}
-        {/* small screens */}
         <Link className="relative" aria-label="Back" href="/testing">
           <BackBtn />
         </Link>
 
         {/* SUMMARY BUTTON*/}
-
         {/* small screens */}
         <Link href="/result" className="md:hidden">
           <div className="relative w-12 h-12 right-4 flex items-center justify-center border border-[#A0A4AB] rotate-45 scale-[0.85]">
