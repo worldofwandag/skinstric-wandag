@@ -17,30 +17,24 @@ const Page = () => {
       </div>
       <div className="flex-1 flex flex-col md:flex-row items-center xl:justify-center relative mb-20 md:mb-60 space-y-16 md:space-y-0">
         {/* LEFT SIDE */}
-        <div className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-x-full flex flex-col items-center cursor-pointer justify-center">
+        <div className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-y-[0%] -translate-y-[-20%] md:-translate-x-full flex flex-col items-center cursor-pointer justify-center">
           {/* for anchoring */}
-          <div className="w-[300px] h-[300px] md:w-[482px] md:h-[482px]" />
+          <div className="w-[380px] h-[380px] md:w-[482px] md:h-[482px]" />
 
           <Image
             src={ResDiamondLarge}
             alt="Diamond Large"
-            className="absolute w-[300px] h-[300px] md:w-[482px] md:h-[482px]"
-            width={300}
-            height={300}
+            className="absolute w-[380px] h-[380px] md:w-[482px] md:h-[482px]"
           />
           <Image
             src={ResDiamondMedium}
             alt="DiamondMedium"
-            className="absolute w-[260px] h-[260px] md:w-[444.34px] md:h-[444.34px]"
-            width={260}
-            height={260}
+            className="absolute w-[340px] h-[340px] md:w-[444.34px] md:h-[444.34px]"
           />
           <Image
             src={ResDiamondSmall}
             alt="DiamondSmall"
-            className="absolute w-[220px] h-[220px] md:w-[405.18px] md:h-[405.18px]"
-            width={220}
-            height={220}
+            className="absolute w-[300px] h-[300px] md:w-[405.18px] md:h-[405.18px]"
           />
 
           {/* Camera Icon and Text */}
@@ -53,7 +47,7 @@ const Page = () => {
               height={136}
             />
 
-            <div className="absolute bottom-[0%] right-[90px]  md:top-[30.9%] md:right-[-12px] translate-y-[-20px]">
+            <div className="absolute bottom-[9%] right-[90px]  md:top-[30.9%] md:right-[-12px] translate-y-[-20px]">
               <p className="text-xs md:text-sm font-normal mt-1 leading-[24px]">
                 ALLOW A.I.
                 <br />
@@ -71,27 +65,27 @@ const Page = () => {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="relative md:absolute md:left-[50%] lg:left-[55%] xl:left-[60%] flex flex-col items-center cursor-pointer mt-12 md:mt-0 justify-center">
-          <div className="w-[300px] h-[300px] md:w-[482px] md:h-[482px]" />
+        <div className="relative md:absolute md:left-[50%] lg:left-[55%] xl:left-[60%] flex flex-col items-center cursor-pointer mt-12 md:mt-0 justify-center md:-translate-y-[0%] -translate-y-[10%]">
+          <div className="w-[380px] h-[380px] md:w-[482px] md:h-[482px]" />
 
           <Image
             src={ResDiamondLarge}
             alt="Diamond Large"
-            className="absolute w-[300px] h-[300px] md:w-[482px] md:h-[482px]"
-            width={300}
-            height={300}
+            className="absolute w-[380px] h-[380px] md:w-[482px] md:h-[482px]"
+            width={380}
+            height={380}
           />
           <Image
             src={ResDiamondMedium}
             alt="DiamondMedium"
-            className="absolute w-[260px] h-[260px] md:w-[444.34px] md:h-[444.34px]"
-            width={260}
-            height={260}
+            className="absolute w-[340px] h-[340px] md:w-[444.34px] md:h-[444.34px]"
+            width={340}
+            height={340}
           />
           <Image
             src={ResDiamondSmall}
             alt="DiamondSmall"
-            className="absolute w-[220px] h-[220px] md:w-[405.18px] md:h-[405.18px]"
+            className="absolute w-[300px] h-[300px] md:w-[405.18px] md:h-[405.18px]"
             width={220}
             height={220}
           />
@@ -106,7 +100,7 @@ const Page = () => {
               width={136}
               height={136}
             />
-            <div className="absolute top-[70%] left-[-40px] md:left-[17px] translate-y-[-10px]">
+            <div className="absolute top-[75%] md:top-[70%]  md:left-[17px] translate-y-[-10px]">
              
               <p className="text-[12px] md:text-[14px] font-normal mt-1 leading-[24px] text-right">
                 ALLOW A.I.
