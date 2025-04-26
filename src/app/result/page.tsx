@@ -17,9 +17,9 @@ const Page = () => {
       <div className="absolute top-2 left-9 md:left-8 text-left">
         <p className="font-semibold text-xs md:text-sm">TO START ANALYSIS</p>
       </div>
-      <div className="flex-1 flex flex-col md:flex-row items-center xl:justify-center relative mb-0 md:mb-20 space-y-16 md:space-y-0">
+      <div className="flex-[0.3] md:flex-1 flex flex-col md:flex-row items-center xl:justify-center relative mb-0 md:mb-20 space-y-[-15px] md:space-y-0">
         {/* LEFT SIDE */}
-        <div className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-y-[0%] -translate-y-[-20%] md:-translate-x-full flex flex-col items-center cursor-pointer justify-center">
+        <div className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-y-[0%] -translate-y-[1%] md:-translate-x-full flex flex-col items-center cursor-pointer justify-center">
           {/* for anchoring */}
           <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]" />
 
@@ -44,7 +44,7 @@ const Page = () => {
             <Image
               src={cameraIcon}
               alt="Camera Icon"
-              className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px]"
+              className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer"
               width={136}
               height={136}
             />

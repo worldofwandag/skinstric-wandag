@@ -32,12 +32,12 @@ export default function Home() {
         {/* Button for Small Screens */}
         <div className="z-10 mt-4 lg:hidden">
           <a href="/testing">
-            <button className="relative flex items-center gap-4">
+            <button className="relative flex items-center gap-4 hover:scale-105 duration-300">
               <span className="text-[12px] font-bold cursor-pointer">
                 ENTER EXPERIENCE
               </span>
               <div className="w-[24px] h-[24px] border border-solid border-black rotate-45 cursor-pointer"></div>
-              <span className="absolute left-[129px] scale-[0.5]">
+              <span className="absolute left-[129px] scale-[0.5] hover:scale-60 duration-300">
                 <svg
                   viewBox="0 0 24 24"
                   width="24"
@@ -85,8 +85,8 @@ export default function Home() {
             <Link href="/testing">
               <button className="inline-flex items-center justify-center gap-4 whitespace-nowrap rounded-md text-sm font-normal text-[#1A1B1C] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring cursor-pointer disabled:opacity-50 h-9 absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/5 xl:-translate-x-1/6 [@media(width>=1920px)]:-translate-x-1/20 px-3 py-1">
                 TAKE TEST
-                <div className="w-[30px] h-[30px] border border-solid border-black rotate-45"></div>
-                <span className="absolute left-[106px] scale-[0.9] cursor-pointer">
+                <div className="w-[30px] h-[30px] border border-solid border-black rotate-45  hover:scale-110 duration-300"></div>
+                <span className="absolute left-[106px] scale-[0.9] cursor-pointer hover:scale-110 duration-300">
                   ▶
                 </span>
               </button>

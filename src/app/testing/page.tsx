@@ -287,10 +287,10 @@ export default function Page() {
         {/* Step 3: Success Message */}
         {state.step === 3 && (
           <div className="flex flex-col items-center gap-4 z-10">
-            <p className="text-3xl font-normal text-[#1A1B1C]">
+            <p className="text-2xl font-normal text-[#1A1B1C] tracking-wide">
               Thank you for submitting!
             </p>
-            <p className="text-xl text-gray-600">
+            <p className="text-lg text-gray-600">
               Ready for the result? Process for the next step
             </p>
           </div>

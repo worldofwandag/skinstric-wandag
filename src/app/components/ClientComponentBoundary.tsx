@@ -135,7 +135,7 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
           <Image
             src={galleryIcon}
             alt="Photo Upload Icon"
-            className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px]"
+            className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer"
             width={136}
             height={136}
           />
@@ -157,9 +157,9 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
       </div>
 
       {/* Preview Image */}
-      <div className="absolute top-4 right-4 md:top-0 md:right-8">
-        <h1 className="text-xs md:text-sm font-extrabold mb-1">Preview</h1>
-        <div className="w-24 h-24 md:w-32 md:h-32 border rounded overflow-hidden">
+      <div className="absolute top-[-75px] right-7 md:top-[-50px] md:right-8">
+        <h1 className="text-xs md:text-sm font-normal mb-1">Preview</h1>
+        <div className="w-24 h-24 md:w-32 md:h-32 border border-gray-300 overflow-hidden">
           {previewImage && (
             <Image 
               src={previewImage} 
@@ -174,9 +174,9 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
 
       {/* Loading Overlay */}
       {isLoading && (
-        <div className="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center z-10">
+        <div className="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center z-11">
           <div className="bg-white p-4 rounded-md">
-            <p>Processing image...</p>
+            <p className="animate-pulse">Processing image...</p>
           </div>
         </div>
       )}
