@@ -23,6 +23,7 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadSuccessful, setUploadSuccessful] = useState(false);
   const router = useRouter();
 
   // Handle gallery icon click
@@ -57,6 +58,14 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
       const objectUrl = URL.createObjectURL(file);
       setPreviewImage(objectUrl);
       
+      // Save full image to localStorage for later use
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const fullImageBase64 = reader.result as string;
+        localStorage.setItem("uploadedImage", fullImageBase64);
+      };
+      
       // Convert to base64 and send to API
       setIsLoading(true);
       const base64String = await convertToBase64(file);
@@ -64,6 +73,7 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
     } catch (error) {
       console.error("Error processing image:", error);
       alert("Failed to process the image. Please try again.");
+      setUploadSuccessful(false);
     } finally {
       setIsLoading(false);
     }
@@ -72,6 +82,9 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
   // Upload image to API
   const uploadImageToAPI = async (base64String: string) => {
     try {
+      // Note: Using "Image" with capital I as the key based on the console log output
+      const payload = { image: base64String };
+      
       const response = await fetch(
         "https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseTwo",
         {
@@ -79,30 +92,32 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ image: base64String }),
+          body: JSON.stringify(payload),
         }
       );
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
 
       const data = await response.json();
       
       // Log the response data
-      console.log({ "Image": "base64_encoded_string" });
-      console.log(data);
+      console.log("Request payload:", { Image: "base64_encoded_string" });
+      console.log("API response:", data);
 
-      if (data.message && data.message.includes("SUCCESS")) {
-        // Store demographic data in localStorage or state management system
+      if (data.success === true && data.message.includes("successfully")) {
+        // Store demographic data in localStorage
         localStorage.setItem("demographicData", JSON.stringify(data.data));
-        
-        // Navigate to result page or handle success
-        alert("Image uploaded successfully!");
-        // Uncomment to navigate to demographics page when ready:
-        // router.push("/demographics");
+        setUploadSuccessful(true);
+        alert("Image analyzed successfully!");
       } else {
-        alert("Failed to analyze image. Please try again.");
+        throw new Error("API returned unsuccessful response");
       }
     } catch (error) {
       console.error("API Error:", error);
-      alert("Error connecting to the service. Please try again later.");
+      alert("Failed to analyze image. Please try again.");
+      setUploadSuccessful(false);
     }
   };
 

@@ -5,11 +5,11 @@ a {
 }
 
 .animate-spin-slow {
-  animation: spin 60s linear infinite;
+  animation: spin 50s linear infinite;
 }
 .animate-spin-slower {
   animation: spin 70s linear infinite;
 }
 .animate-spin-slowest {
-  animation: spin 80s linear infinite;
+  animation: spin 85s linear infinite;
 }

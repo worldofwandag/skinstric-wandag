@@ -26,12 +26,12 @@ const Page = () => {
           <Image
             src={ResDiamondLarge}
             alt="Diamond Large"
-            className="absolute w-[270px] h-[270px] md:w-[482px] md:h-[482px] animate-spin-slow"
+            className="absolute w-[270px] h-[270px] md:w-[482px] md:h-[482px] animate-spin-slower"
           />
           <Image
             src={ResDiamondMedium}
             alt="DiamondMedium"
-            className="absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slower"
+            className="absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slow"
           />
           <Image
             src={ResDiamondSmall}
