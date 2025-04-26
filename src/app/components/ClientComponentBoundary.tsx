@@ -31,19 +31,62 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
     fileInputRef.current?.click();
   };
 
-  // Convert image file to base64
-  const convertToBase64 = (file: File): Promise<string> => {
+  // Safely store data in localStorage with fallback
+  const safelyStoreData = (key: string, value: string) => {
+    try {
+      localStorage.setItem(key, value);
+      return true;
+    } catch (error) {
+      console.warn(`Failed to store ${key} in localStorage:`, error);
+      return false;
+    }
+  };
+
+  // Resize image and convert to base64
+  const resizeAndConvertImage = (file: File, maxWidth = 800, maxHeight = 800): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => {
-        const base64String = reader.result as string;
-        // Remove the data URL prefix (e.g., "data:image/jpeg;base64,")
-        const base64Content = base64String.split(',')[1];
-        resolve(base64Content);
+      reader.onload = (event) => {
+        // Use HTMLImageElement instead of Image to avoid conflicts with Next.js Image component
+        const img = new (window.Image as any)();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          // Calculate dimensions to maintain aspect ratio
+          let width = img.width;
+          let height = img.height;
+          
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+          
+          // Create canvas and resize image
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // Convert to base64
+          const resizedBase64 = canvas.toDataURL('image/jpeg', 0.7); // Use 0.7 quality for JPEG
+          resolve(resizedBase64);
+        };
+        img.onerror = reject;
       };
-      reader.onerror = (error) => reject(error);
+      reader.onerror = reject;
     });
+  };
+
+  // Convert base64 data URL to base64 string without prefix
+  const stripBase64Prefix = (base64DataUrl: string): string => {
+    return base64DataUrl.split(',')[1];
   };
 
   // Handle file selection
@@ -58,17 +101,17 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
       const objectUrl = URL.createObjectURL(file);
       setPreviewImage(objectUrl);
       
-      // Save full image to localStorage for later use
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const fullImageBase64 = reader.result as string;
-        localStorage.setItem("uploadedImage", fullImageBase64);
-      };
-      
       // Convert to base64 and send to API
       setIsLoading(true);
-      const base64String = await convertToBase64(file);
+      
+      // Resize image for storage and API
+      const resizedImage = await resizeAndConvertImage(file);
+      
+      // Try to store the resized image
+      safelyStoreData("uploadedImage", resizedImage);
+      
+      // Get base64 string for API
+      const base64String = stripBase64Prefix(resizedImage);
       await uploadImageToAPI(base64String);
     } catch (error) {
       console.error("Error processing image:", error);
@@ -82,9 +125,6 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
   // Upload image to API
   const uploadImageToAPI = async (base64String: string) => {
     try {
-      // Note: Using "Image" with capital I as the key based on the console log output
-      const payload = { image: base64String };
-      
       const response = await fetch(
         "https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseTwo",
         {
@@ -92,7 +132,7 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({ image: base64String }),
         }
       );
 
@@ -102,13 +142,12 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
 
       const data = await response.json();
       
-      // Log the response data
-      console.log("Request payload:", { Image: "base64_encoded_string" });
+      // Log the response data for debugging
       console.log("API response:", data);
 
-      if (data.success === true && data.message.includes("successfully")) {
+      if (data.success === true && data.message && data.message.includes("success")) {
         // Store demographic data in localStorage
-        localStorage.setItem("demographicData", JSON.stringify(data.data));
+        safelyStoreData("demographicData", JSON.stringify(data.data));
         setUploadSuccessful(true);
         alert("Image analyzed successfully!");
       } else {
