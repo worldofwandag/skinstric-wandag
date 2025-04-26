@@ -11,19 +11,20 @@ interface DiamondButtonsProps {
 }
 
 // Define a type for the hovered button state
-type ButtonType = 'demographics' | 'cosmetic' | 'skin' | 'weather' | null;
+type ButtonType = "demographics" | "cosmetic" | "skin" | "weather" | null;
 
 const DiamondButtons: React.FC<DiamondButtonsProps> = ({ diamondImageSrc }) => {
   const [hoveredButton, setHoveredButton] = useState<ButtonType>(null);
 
   return (
     <div className="relative">
+      {/* small diamond */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div 
+        <div
           className={`absolute transition-all duration-300 ${
-            hoveredButton === 'demographics' 
-              ? 'w-[602px] h-[602px] opacity-100' 
-              : 'w-[400px] h-[400px] opacity-0'
+            hoveredButton === "demographics"
+              ? "w-[602px] h-[602px] opacity-100"
+              : "w-[400px] h-[400px] opacity-0"
           }`}
         >
           <Image
@@ -38,9 +39,9 @@ const DiamondButtons: React.FC<DiamondButtonsProps> = ({ diamondImageSrc }) => {
       <div className="relative z-10 grid grid-cols-3 grid-rows-3 gap-0">
         <div className="flex items-center justify-center col-start-2">
           <Link href="/final">
-            <button 
+            <button
               className="w-[153.88px] h-[153.88px] bg-gray-200 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 cursor-pointer font-semibold leading-[24px] tracking-tight uppercase"
-              onMouseEnter={() => setHoveredButton('demographics')}
+              onMouseEnter={() => setHoveredButton("demographics")}
               onMouseLeave={() => setHoveredButton(null)}
             >
               <span className="transform -rotate-45">Demographics</span>
@@ -48,17 +49,29 @@ const DiamondButtons: React.FC<DiamondButtonsProps> = ({ diamondImageSrc }) => {
           </Link>
         </div>
         <div className="flex items-center justify-center row-start-2 col-start-1">
-          <button className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 cursor-not-allowed font-semibold leading-[24px] tracking-tight uppercase">
+          <button
+            className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 cursor-not-allowed font-semibold leading-[24px] tracking-tight uppercase"
+            onMouseEnter={() => setHoveredButton("cosmetic")}
+            onMouseLeave={() => setHoveredButton(null)}
+          >
             <span className="transform -rotate-45">Cosmetic Concerns</span>
           </button>
         </div>
         <div className="flex items-center justify-center row-start-2 col-start-3">
-          <button className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 cursor-not-allowed font-semibold leading-[24px] tracking-tight uppercase">
+          <button
+            className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 cursor-not-allowed font-semibold leading-[24px] tracking-tight uppercase"
+            onMouseEnter={() => setHoveredButton("skin")}
+            onMouseLeave={() => setHoveredButton(null)}
+          >
             <span className="transform -rotate-45">Skin Type Details</span>
           </button>
         </div>
         <div className="flex items-center justify-center row-start-3 col-start-2">
-          <button className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 cursor-not-allowed font-semibold leading-[24px] tracking-tight uppercase">
+          <button
+            className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 cursor-not-allowed font-semibold leading-[24px] tracking-tight uppercase"
+            onMouseEnter={() => setHoveredButton("weather")}
+            onMouseLeave={() => setHoveredButton(null)}
+          >
             <span className="transform -rotate-45">Weather</span>
           </button>
         </div>
