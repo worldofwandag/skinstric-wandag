@@ -13,3 +13,14 @@ a {
 .animate-spin-slowest {
   animation: spin 85s linear infinite;
 }
+
+.diamond-container {
+  pointer-events: none;
+}
+
+.demographics-button:hover + .diamond-container .demographics-diamond,
+.demographics-button:hover ~ .diamond-container .demographics-diamond {
+  width: 602px !important;
+  height: 602px !important;
+  opacity: 1 !important;
+}
