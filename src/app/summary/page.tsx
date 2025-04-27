@@ -4,14 +4,54 @@ import BackBtn from "../components/ui/BackBtn";
 import SumBtn from "../components/ui/SumBtn";
 import Image from "next/image";
 import radioButton from "../assets/ui/radioButton.png";
+import SummaryClient from "./SummaryClient";
 
-const Page = () => {
+// Server component that will prefetch and prepare data
+const Page = async () => {
+  // In the future, you could fetch data from your API here
+  // For now, we'll use hardcoded data
+  const demographicData = {
+    race: {
+      prediction: "East Asian",
+      confidence: 82,
+      options: [
+        { name: "East Asian", confidence: 82 },
+        { name: "South Asian", confidence: 9 },
+        { name: "Southeast Asian", confidence: 4 },
+        { name: "Latino Hispanic", confidence: 2 },
+        { name: "Middle Eastern", confidence: 1 },
+        { name: "White", confidence: 1 },
+        { name: "Black", confidence: 1 },
+      ]
+    },
+    age: {
+      prediction: "20-29",
+      confidence: 70,
+      options: [
+        { name: "0-9", confidence: 0 },
+        { name: "10-19", confidence: 4 },
+        { name: "20-29", confidence: 96 },
+        { name: "30-39", confidence: 2 },
+        { name: "40-49", confidence: 0 },
+        { name: "50-59", confidence: 0 },
+        { name: "60-69", confidence: 0 },
+        { name: "70+", confidence: 0 },
+      ]
+    },
+    sex: {
+      prediction: "MALE",
+      confidence: 96,
+      options: [
+        { name: "MALE", confidence: 96 },
+        { name: "FEMALE", confidence: 4 },
+      ]
+    }
+  };
+
   return (
     <div className="h-screen md:h-[90vh] flex flex-col md:mt-5">
       <main className="flex-1 w-full bg-white md:overflow-hidden overflow-auto">
         <div className="md:h-full max-w-full mx-5 px-4 md:px-auto flex flex-col ">
-          {" "}
-          {/* PARENT FOR MIDDLE SECTION */}
           {/* TOP SECTION */}
           <div className="text-start ml-4 mb-4 md:mb-10 md:ml-0">
             <h2 className="text-base md:text-base font-semibold mb-1 leading-[24px]">
@@ -24,459 +64,9 @@ const Page = () => {
               PREDICTED RACE &amp; AGE
             </h4>
           </div>
-          {/* MIDDLE SECTION BOX SELECTOR */}
-          <div className="grid md:grid-cols-[1.5fr_8.5fr_3.15fr] gap-4 mt-10 mb-40 md:gap-4 pb-0 md:pb-0 md:mb-0">
-            <div className="bg-white-100 space-y-3 md:flex md:flex-col h-[62%] ">
-              {/* RACE BOX */}
-              <div className="p-3 cursor-pointer transition-colors bg-[#1A1B1C] text-white flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t">
-                <p className="text-base font-semibold">EAST ASIAN</p>
-                <h4 className="text-base font-semibold mb-1">RACE</h4>
-              </div>
-              {/* AGE BOX */}
-              <div className="p-3 cursor-pointer transition-colors bg-[#F3F3F4] flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t">
-                <p className="text-base font-semibold">20-29</p>
-                <h4 className="text-base font-semibold mb-1">AGE</h4>
-              </div>
-              {/* SEX BOX */}
-              <div className="p-3 cursor-pointer transition-colors bg-[#F3F3F4] flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t">
-                <p className="text-base font-semibold">MALE</p>
-                <h4 className="text-base font-semibold mb-1">SEX</h4>
-              </div>
-            </div>
-
-            {/* MIDDLE SECTION WITH CIRCLE */}
-              {/* RACE TITLE */}
-            <div className="relative bg-gray-100 p-4 flex flex-col items-center justify-center md:h-[57vh] md:border-t">
-              <p className="hidden md:block md:absolute text-[40px] mb-2 left-5 top-2">
-                East Asian
-              </p>
-              {/* HIDDEN UNTIL APPROPRIATE BOX IS CLICKED */}
-                 {/* AGE TITLE */}
-              <p className="hidden md:hidden md:absolute text-[40px] mb-2 left-7 top-4">
-                20-29 y.o.
-              </p>
-                 {/* SEX TITLE */}
-              <p className="hidden md:hidden md:absolute text-[40px] mb-2 left-7 top-4">
-                Male
-              </p>
-
-              {/* RACE CIRCLE */}
-              <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2">
-                <svg className="w-full h-full" viewBox="0 0 100 100">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="50"
-                    className="text-gray-200"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    fill="transparent"
-                  ></circle>
-                  <circle
-                    className="circle"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    fill="transparent"
-                    strokeLinecap="round"
-                    strokeDasharray="251.32741228718345"
-                    strokeDashoffset="45.25320423030431"
-                    transform="rotate(-90 50 50)"
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  ></circle>
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <p className="text-3xl md:text-5xl font-normal">82%</p>
-                </div>
-              </div>
-
-              {/* HIDDEN UNTIL APPROPRIATE BOX IS CLICKED */}
-                {/* AGE CIRCLE */}
-              <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2 hidden">
-                <svg className="w-full h-full" viewBox="0 0 100 100">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="50"
-                    className="text-gray-200"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    fill="transparent"
-                  ></circle>
-                  <circle
-                    className="circle"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    fill="transparent"
-                    strokeLinecap="round"
-                    strokeDasharray="251.32741228718345"
-                    strokeDashoffset="60"
-                    transform="rotate(-90 50 50)"
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  ></circle>
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <p className="text-3xl md:text-5xl font-normal">70%</p>
-                </div>
-              </div>
-                {/* SEX CIRCLE */}
-              <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2 hidden">
-                <svg className="w-full h-full" viewBox="0 0 100 100">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="50"
-                    className="text-gray-200"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    fill="transparent"
-                  ></circle>
-                  <circle
-                    className="circle"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    fill="transparent"
-                    strokeLinecap="round"
-                    strokeDasharray="251.32741228718345"
-                    strokeDashoffset="80"
-                    transform="rotate(-90 50 50)"
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  ></circle>
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <p className="text-3xl md:text-5xl font-normal">60%</p>
-                </div>
-              </div>
-
-
-
-              <p className="md:absolute text-xs text-[#A0A4AB] md:text-sm lg:text-base font-normal mb-1 leading-[24px] md:bottom-[-15%] md:left-[22%] lg:left-[30%] xl:left-[40%]  2xl:left-[45%]">
-                If A.I. estimate is wrong, select the correct one.
-              </p>
-            </div>
-
-            {/* RIGHT SECTION */}
-              {/* RACE PERCENTAGES */}
-            <div className="bg-gray-100 pt-4 pb-4 md:border-t ">
-              <div className="space-y-0">
-                <div className="flex justify-between px-4">
-                  <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
-                    RACE
-                  </h4>
-                  <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
-                    A.I. CONFIDENCE
-                  </h4>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4 ">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      East Asian
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    82%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      South Asian
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    9%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      Southeast Asian
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    4%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      Latino Hispanic
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    2%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      Middle Eastern
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    1%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      White
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    1%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      Black
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    1%
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* HIDDEN RIGHT SIDE UNTIL APPROPRIATE BOX IS SELECTED / CLICKED / ACTIVE */}
-              {/* AGE PERCENTAGES*/}
-            <div className="bg-gray-100 pt-4 pb-4 md:border-t hidden">
-              <div className="space-y-0">
-                <div className="flex justify-between px-4">
-                  <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
-                    AGE
-                  </h4>
-                  <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
-                    A.I. CONFIDENCE
-                  </h4>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4 ">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      0-9
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    0%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      10-19
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    4%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      20-29
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    96%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      30-39
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    2%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      40-49
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    0%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      50-59
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    0%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      60-69
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    0%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      70+
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    0%
-                  </span>
-                </div>
-              </div>
-            </div>
-
-              {/* SEX PERCENTAGES */}
-            <div className="bg-gray-100 pt-4 pb-4 md:border-t hidden">
-              <div className="space-y-0">
-                <div className="flex justify-between px-4">
-                  <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
-                    SEX
-                  </h4>
-                  <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
-                    A.I. CONFIDENCE
-                  </h4>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4 ">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      MALE
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    96%
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between h-[48px]  hover:bg-[#E1E1E2] px-4">
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src={radioButton}
-                      alt="radio button"
-                      className="w-[12px] h-[12px] mr-2"
-                    />
-                    <span className="font-normal text-base leading-6 tracking-tight">
-                      FEMALE
-                    </span>
-                  </div>
-                  <span className="font-normal text-base leading-6 tracking-tight">
-                    4%
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          
+          {/* Client component handles all interactivity */}
+          <SummaryClient data={demographicData} />
 
           {/* BOTTOM */}
           <div className="pt-4 md:pt-[37px] pb-6 bg-white sticky bottom-40 md:static md:bottom-0 mb-8 md:mb-16">
