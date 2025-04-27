@@ -21,10 +21,12 @@ const Page = () => {
       </div>
 
       {/* SELECT DEMOGRAPHICS */}
-      <div className="h-[80dvh] flex flex-col items-center justify-center bg-white">
+      <div className="h-[78.3vh] flex flex-col items-center justify-center bg-white">
         <DiamondButtons diamondImageSrc={DiamondSmall} />
+        </div>
 
-        <div className="absolute bottom-8 w-full flex justify-between px-8">
+        <div className="pt-4 md:pt-18 pb-6 bg-white sticky md:static bottom-40 mb-0 md:mb-0">
+        <div className="flex justify-between max-w-full mx-auto px-13 md:px-9">
           <Link href="/result">
             <BackBtn />
           </Link>

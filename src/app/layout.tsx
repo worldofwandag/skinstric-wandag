@@ -10,6 +10,11 @@ const roobert = localFont({
       weight: "400",
       style: "normal",
     },
+    {
+      path: "./assets/fonts/RoobertTRIAL-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
 
     {
       path: "./assets/fonts/RoobertTRIAL-Bold.woff2",
