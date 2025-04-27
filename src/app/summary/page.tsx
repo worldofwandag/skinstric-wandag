@@ -24,7 +24,7 @@ const Page = () => {
               PREDICTED RACE &amp; AGE
             </h4>
           </div>
-          {/* MIDDLE SECTION */}
+          {/* MIDDLE SECTION BOX SELECTOR */}
           <div className="grid md:grid-cols-[1.5fr_8.5fr_3.15fr] gap-4 mt-10 mb-40 md:gap-4 pb-0 md:pb-0 md:mb-0">
             <div className="bg-white-100 space-y-3 md:flex md:flex-col h-[62%] ">
               {/* RACE BOX */}
@@ -45,19 +45,22 @@ const Page = () => {
             </div>
 
             {/* MIDDLE SECTION WITH CIRCLE */}
+              {/* RACE TITLE */}
             <div className="relative bg-gray-100 p-4 flex flex-col items-center justify-center md:h-[57vh] md:border-t">
               <p className="hidden md:block md:absolute text-[40px] mb-2 left-5 top-2">
                 East Asian
               </p>
               {/* HIDDEN UNTIL APPROPRIATE BOX IS CLICKED */}
+                 {/* AGE TITLE */}
               <p className="hidden md:hidden md:absolute text-[40px] mb-2 left-7 top-4">
                 20-29 y.o.
               </p>
+                 {/* SEX TITLE */}
               <p className="hidden md:hidden md:absolute text-[40px] mb-2 left-7 top-4">
                 Male
               </p>
 
-              {/* CIRCLE */}
+              {/* RACE CIRCLE */}
               <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2">
                 <svg className="w-full h-full" viewBox="0 0 100 100">
                   <circle
@@ -87,13 +90,78 @@ const Page = () => {
                   <p className="text-3xl md:text-5xl font-normal">82%</p>
                 </div>
               </div>
+
+              {/* HIDDEN UNTIL APPROPRIATE BOX IS CLICKED */}
+                {/* AGE CIRCLE */}
+              <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2 hidden">
+                <svg className="w-full h-full" viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                    className="text-gray-200"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    fill="transparent"
+                  ></circle>
+                  <circle
+                    className="circle"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    fill="transparent"
+                    strokeLinecap="round"
+                    strokeDasharray="251.32741228718345"
+                    strokeDashoffset="60"
+                    transform="rotate(-90 50 50)"
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  ></circle>
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <p className="text-3xl md:text-5xl font-normal">70%</p>
+                </div>
+              </div>
+                {/* SEX CIRCLE */}
+              <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2 hidden">
+                <svg className="w-full h-full" viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                    className="text-gray-200"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    fill="transparent"
+                  ></circle>
+                  <circle
+                    className="circle"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    fill="transparent"
+                    strokeLinecap="round"
+                    strokeDasharray="251.32741228718345"
+                    strokeDashoffset="80"
+                    transform="rotate(-90 50 50)"
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  ></circle>
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <p className="text-3xl md:text-5xl font-normal">60%</p>
+                </div>
+              </div>
+
+
+
               <p className="md:absolute text-xs text-[#A0A4AB] md:text-sm lg:text-base font-normal mb-1 leading-[24px] md:bottom-[-15%] md:left-[22%] lg:left-[30%] xl:left-[40%]  2xl:left-[45%]">
                 If A.I. estimate is wrong, select the correct one.
               </p>
             </div>
 
             {/* RIGHT SECTION */}
-            {/* RACE PERCENTAGES */}
+              {/* RACE PERCENTAGES */}
             <div className="bg-gray-100 pt-4 pb-4 md:border-t ">
               <div className="space-y-0">
                 <div className="flex justify-between px-4">
@@ -220,7 +288,7 @@ const Page = () => {
             </div>
 
             {/* HIDDEN RIGHT SIDE UNTIL APPROPRIATE BOX IS SELECTED / CLICKED / ACTIVE */}
-            {/* AGE PERCENTAGES*/}
+              {/* AGE PERCENTAGES*/}
             <div className="bg-gray-100 pt-4 pb-4 md:border-t hidden">
               <div className="space-y-0">
                 <div className="flex justify-between px-4">
@@ -362,7 +430,7 @@ const Page = () => {
               </div>
             </div>
 
-            {/* SEX PERCENTAGES */}
+              {/* SEX PERCENTAGES */}
             <div className="bg-gray-100 pt-4 pb-4 md:border-t hidden">
               <div className="space-y-0">
                 <div className="flex justify-between px-4">
@@ -408,6 +476,8 @@ const Page = () => {
               </div>
             </div>
           </div>
+
+
           {/* BOTTOM */}
           <div className="pt-4 md:pt-[37px] pb-6 bg-white sticky bottom-40 md:static md:bottom-0 mb-8 md:mb-16">
             <div className="flex justify-between max-w-full mx-auto px-4 md:px-0">
