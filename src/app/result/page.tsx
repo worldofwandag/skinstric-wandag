@@ -10,14 +10,15 @@ import galleryIcon from "../assets/ui/gallery-icon.png";
 import ResGalleryLine from "../assets/ui/ResGalleryLine.png";
 import BackBtn from "../components/ui/BackBtn";
 import ClientComponentBoundary from "../components/ClientComponentBoundary";
+import ProcessBtn from "../components/ui/ProcessBtn";
 
 const Page = () => {
   return (
-    <div className="min-h-[89vh] flex flex-col bg-white relative md:pt-[64px] justify-center">
+    <div className="min-h-[92vh] flex flex-col bg-white relative md:pt-[64px] justify-center">
       <div className="absolute top-2 left-9 md:left-8 text-left">
         <p className="font-semibold text-xs md:text-sm">TO START ANALYSIS</p>
       </div>
-      <div className="flex-[0.3] md:flex-1 flex flex-col md:flex-row items-center xl:justify-center relative mb-0 md:mb-20 space-y-[-15px] md:space-y-0">
+      <div className="flex-[0.4] md:flex-1 flex flex-col md:flex-row items-center xl:justify-center relative mb-0 md:mb-30 space-y-[-20px] md:space-y-0">
         {/* LEFT SIDE */}
         <div className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-y-[0%] -translate-y-[1%] md:-translate-x-full flex flex-col items-center cursor-pointer justify-center">
           {/* for anchoring */}
@@ -76,7 +77,7 @@ const Page = () => {
         />
       </div>
 
-      <div className="bottom-10 w-full flex justify-between px-10">
+      <div className="absolute bottom-8 w-full flex justify-between px-8">
         {/* BACK BUTTON */}
         <Link className="relative" aria-label="Back" href="/testing">
           <BackBtn />
@@ -84,25 +85,8 @@ const Page = () => {
 
         {/* SUMMARY BUTTON*/}
         {/* small screens */}
-        <Link href="/select" className="md:hidden">
-          <div className="relative w-12 h-12 right-4 flex items-center justify-center border border-[#A0A4AB] rotate-45 scale-[0.85]">
-            <span className="absolute rotate-[-45deg] text-xs font-normal tracking-tighter">
-              SUMMARY
-            </span>
-          </div>
-        </Link>
-
-        {/* large screens */}
-        <Link href="/select" className="hidden md:flex">
-          <div className="flex flex-row relative justify-center items-center">
-            <span className="text-sm font-semibold mr-10">
-              GET SUMMARY
-            </span>
-            <div className="relative w-12 h-12 right-4 flex items-center justify-center border border-[#A0A4AB] rotate-45 scale-[0.85]" />
-            <span className="absolute right-[32px] bottom-[13px] scale-[0.9]">
-              ▶
-            </span>
-          </div>
+        <Link href="/select">
+          <ProcessBtn />
         </Link>
       </div>
     </div>

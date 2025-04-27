@@ -291,7 +291,7 @@ export default function Page() {
               Thank you for submitting!
             </p>
             <p className="text-lg text-gray-600">
-              Ready for the result? Process for the next step
+              Ready for the result? Proceed for the next step
             </p>
           </div>
         )}
@@ -328,7 +328,7 @@ export default function Page() {
           <BackBtn />
         </Link>
 
-        {/* PROCESS BUTTON - only show when form is completed */}
+        {/* PROCEED BUTTON - only show when form is completed */}
         {state.step === 3 && (
           <Link
             href="/result"

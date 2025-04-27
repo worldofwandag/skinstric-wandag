@@ -163,7 +163,7 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
   return (
     <>
       <div 
-        className="relative md:absolute md:left-[50%] lg:left-[55%] xl:left-[60%] flex flex-col items-center cursor-pointer mt-12 md:mt-0 justify-center md:-translate-y-[0%] -translate-y-[10%]"
+        className="relative md:absolute md:left-[45%] lg:left-[50%] xl:left-[55%] flex flex-col items-center cursor-pointer mt-12 md:mt-0 justify-center md:-translate-y-[0%] -translate-y-[10%]"
         onClick={handleGalleryClick}
       >
         <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]" />
