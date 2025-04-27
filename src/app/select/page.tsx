@@ -25,7 +25,7 @@ const Page = () => {
         <DiamondButtons diamondImageSrc={DiamondSmall} />
         </div>
 
-        <div className="pt-4 md:pt-18 pb-6 bg-white sticky md:static bottom-40 mb-0 md:mb-0">
+        <div className="pt-4 md:pt-12 pb-8 bg-white sticky md:static bottom-40 mb-0 md:mb-0">
         <div className="flex justify-between max-w-full mx-auto px-13 md:px-9">
           <Link href="/result">
             <BackBtn />

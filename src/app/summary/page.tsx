@@ -13,7 +13,7 @@ const Page = () => {
           {" "}
           {/* PARENT FOR MIDDLE SECTION */}
           {/* TOP SECTION */}
-          <div className="text-start ml-4 mb-4 md:mb-10 md:ml-0 md:mt-3">
+          <div className="text-start ml-4 mb-4 md:mb-10 md:ml-0">
             <h2 className="text-base md:text-base font-semibold mb-1 leading-[24px]">
               A.I. ANALYSIS
             </h2>
@@ -27,23 +27,26 @@ const Page = () => {
           {/* MIDDLE SECTION */}
           <div className="grid md:grid-cols-[1.5fr_8.5fr_3.15fr] gap-4 mt-10 mb-40 md:gap-4 pb-0 md:pb-0 md:mb-0">
             <div className="bg-white-100 space-y-3 md:flex md:flex-col h-[62%] ">
+              {/* RACE BOX */}
               <div className="p-3 cursor-pointer transition-colors bg-[#1A1B1C] text-white flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t">
                 <p className="text-base font-semibold">EAST ASIAN</p>
                 <h4 className="text-base font-semibold mb-1">RACE</h4>
               </div>
+              {/* AGE BOX */}
               <div className="p-3 cursor-pointer transition-colors bg-[#F3F3F4] flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t">
                 <p className="text-base font-semibold">20-29</p>
                 <h4 className="text-base font-semibold mb-1">AGE</h4>
               </div>
+              {/* SEX BOX */}
               <div className="p-3 cursor-pointer transition-colors bg-[#F3F3F4] flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t">
                 <p className="text-base font-semibold">MALE</p>
-                <h4 className="text-base font-semibold mb-1">GENDER</h4>
+                <h4 className="text-base font-semibold mb-1">SEX</h4>
               </div>
             </div>
 
-            {/* MIDDLE SESCTION WITH CIRCLE */}
+            {/* MIDDLE SECTION WITH CIRCLE */}
             <div className="relative bg-gray-100 p-4 flex flex-col items-center justify-center md:h-[57vh] md:border-t">
-              <p className="hidden md:block md:absolute text-[40px] mb-2 left-7 top-4">
+              <p className="hidden md:block md:absolute text-[40px] mb-2 left-5 top-2">
                 East Asian
               </p>
               {/* HIDDEN UNTIL APPROPRIATE BOX IS CLICKED */}
@@ -84,7 +87,7 @@ const Page = () => {
                   <p className="text-3xl md:text-5xl font-normal">82%</p>
                 </div>
               </div>
-              <p className="md:absolute text-xs text-gray-600 md:text-base font-normal mb-1 leading-[24px] md:bottom-[-13%]">
+              <p className="md:absolute text-xs text-[#A0A4AB] md:text-sm lg:text-base font-normal mb-1 leading-[24px] md:bottom-[-15%] md:left-[22%] lg:left-[30%] xl:left-[40%]  2xl:left-[45%]">
                 If A.I. estimate is wrong, select the correct one.
               </p>
             </div>
@@ -359,12 +362,12 @@ const Page = () => {
               </div>
             </div>
 
-            {/* GENDER PERCENTAGES */}
+            {/* SEX PERCENTAGES */}
             <div className="bg-gray-100 pt-4 pb-4 md:border-t hidden">
               <div className="space-y-0">
                 <div className="flex justify-between px-4">
                   <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
-                    GENDER
+                    SEX
                   </h4>
                   <h4 className="text-base leading-[24px] tracking-tight font-medium mb-2">
                     A.I. CONFIDENCE
@@ -406,7 +409,7 @@ const Page = () => {
             </div>
           </div>
           {/* BOTTOM */}
-          <div className="pt-4 md:pt-18 pb-6 bg-white sticky bottom-40 md:static md:bottom-0 mb-8 md:mb-16">
+          <div className="pt-4 md:pt-[37px] pb-6 bg-white sticky bottom-40 md:static md:bottom-0 mb-8 md:mb-16">
             <div className="flex justify-between max-w-full mx-auto px-4 md:px-0">
               <Link href="/select">
                 <BackBtn />
