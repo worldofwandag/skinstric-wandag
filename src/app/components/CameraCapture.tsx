@@ -12,6 +12,7 @@ const CameraCapture = () => {
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [permissionModal, setPermissionModal] = useState(true);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -23,31 +24,61 @@ const CameraCapture = () => {
     try {
       console.log("Requesting camera access...");
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: {
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        },
         audio: false
       });
       
       console.log("Camera access granted");
       setStream(mediaStream);
-      
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-        console.log("Video element set up with stream");
-      }
     } catch (err) {
       console.error("Error accessing camera:", err);
       setError(`Camera access error: ${err}`);
-      // Wait a moment before redirecting
       setTimeout(() => router.push('/result'), 3000);
     }
   };
+
+  // Effect to handle video stream once stream is set
+  useEffect(() => {
+    if (stream && videoRef.current) {
+      // Set the stream to the video element
+      videoRef.current.srcObject = stream;
+      
+      // Listen for the loadedmetadata event
+      const handleLoadedMetadata = () => {
+        console.log("Video metadata loaded, starting playback");
+        if (videoRef.current) {
+          videoRef.current.play()
+            .then(() => {
+              console.log("Video playback started");
+              setIsVideoReady(true);
+            })
+            .catch(err => {
+              console.error("Error starting video playback:", err);
+              setError(`Video playback error: ${err}`);
+            });
+        }
+      };
+      
+      videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
+      
+      // Cleanup function
+      return () => {
+        if (videoRef.current) {
+          videoRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        }
+      };
+    }
+  }, [stream]);
 
   // Deny camera permission
   const denyCameraPermission = () => {
     router.push('/result');
   };
 
-  // Take a photo
+  // Take a photo - wait for video to be ready
   const capturePhoto = () => {
     setError(null);
     
@@ -56,21 +87,37 @@ const CameraCapture = () => {
       return;
     }
     
+    if (!isVideoReady) {
+      setError("Video is not ready yet, please wait a moment");
+      return;
+    }
+    
     try {
       const video = videoRef.current;
       const canvas = canvasRef.current;
       
-      console.log(`Video dimensions: ${video.videoWidth}x${video.videoHeight}`);
+      // Make sure we have valid dimensions
+      if (!video.videoWidth || !video.videoHeight) {
+        console.error("Video dimensions not available");
+        setError("Cannot capture: video dimensions not available");
+        return;
+      }
       
-      // Set canvas size
-      canvas.width = video.videoWidth || 640;
-      canvas.height = video.videoHeight || 480;
+      console.log(`Capturing from video: ${video.videoWidth}x${video.videoHeight}`);
+      
+      // Set canvas size to match video
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
       
       const context = canvas.getContext('2d');
       if (!context) {
         setError("Could not get canvas context");
         return;
       }
+      
+      // Clear the canvas first
+      context.fillStyle = "#FFFFFF";
+      context.fillRect(0, 0, canvas.width, canvas.height);
       
       // Draw video frame to canvas
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -97,6 +144,7 @@ const CameraCapture = () => {
         track.stop();
       });
       setStream(null);
+      setIsVideoReady(false);
     }
   };
 
@@ -104,18 +152,18 @@ const CameraCapture = () => {
   const resetCamera = async () => {
     setCapturedImage(null);
     setError(null);
+    setIsVideoReady(false);
     
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: {
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        },
         audio: false
       });
       
       setStream(mediaStream);
-      
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-      }
     } catch (err) {
       console.error("Error restarting camera:", err);
       setError(`Camera restart error: ${err}`);
@@ -141,7 +189,7 @@ const CameraCapture = () => {
         console.warn("Failed to store in localStorage:", error);
       }
       
-      // Get base64 data without prefix
+      // Get base64 data without prefix for API
       const base64Data = capturedImage.split(',')[1];
       console.log(`API data length: ${base64Data.length}`);
       
@@ -224,8 +272,15 @@ const CameraCapture = () => {
         
         {/* Error message */}
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 max-w-md">
             <p>{error}</p>
+          </div>
+        )}
+        
+        {/* Video status */}
+        {stream && !isVideoReady && !capturedImage && (
+          <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4 max-w-md">
+            <p>Initializing camera, please wait...</p>
           </div>
         )}
         
@@ -238,15 +293,19 @@ const CameraCapture = () => {
               playsInline
               muted
               className="w-full h-auto rounded-lg"
+              style={{ backgroundColor: '#f0f0f0' }} // Background to make it visible
             />
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-              <button 
-                className="bg-white p-2 rounded-full shadow-lg"
-                onClick={capturePhoto}
-              >
-                <span className="block w-12 h-12 rounded-full border-4 border-black"></span>
-              </button>
-            </div>
+            
+            {isVideoReady && (
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                <button 
+                  className="bg-white p-2 rounded-full shadow-lg"
+                  onClick={capturePhoto}
+                >
+                  <span className="block w-12 h-12 rounded-full border-4 border-black"></span>
+                </button>
+              </div>
+            )}
             
             <div className="mt-20 text-center">
               <p className="text-sm mb-2">TO GET BETTER RESULTS MAKE SURE TO HAVE</p>
@@ -267,7 +326,11 @@ const CameraCapture = () => {
               src={capturedImage} 
               alt="Captured selfie" 
               className="w-full h-auto rounded-lg mb-4" 
-              onError={() => setError("Error displaying captured image")}
+              style={{ backgroundColor: '#f0f0f0' }} // Background to make it visible
+              onError={(e) => {
+                console.error("Image display error", e);
+                setError("Error displaying captured image");
+              }}
             />
             <div className="flex justify-center space-x-4 mt-4">
               <button 
@@ -288,7 +351,11 @@ const CameraCapture = () => {
         )}
         
         {/* Hidden canvas for capturing photos */}
-        <canvas ref={canvasRef} className="hidden" />
+        <canvas 
+          ref={canvasRef} 
+          className="hidden" 
+          style={{ border: '1px solid red' }} // Making it visible for debugging
+        />
       </div>
       
       {/* Back button */}
