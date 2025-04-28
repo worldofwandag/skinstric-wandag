@@ -57,6 +57,22 @@ const SummaryClient: React.FC = () => {
 
   // Get active category data
   const activeData = localData[activeCategory];
+  
+  // Function to sort options based on category
+  const getSortedOptions = (category: "race" | "age" | "sex", options: DemographicOption[]) => {
+    if (category === "age") {
+      // Define the correct order of age ranges
+      const ageOrder = ["0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70+"];
+      
+      // Create a new sorted array based on the predefined order
+      return [...options].sort((a, b) => {
+        return ageOrder.indexOf(a.name) - ageOrder.indexOf(b.name);
+      });
+    }
+    
+    // For other categories, keep the default sorting (by confidence)
+    return options;
+  };
 
   return (
     <>
@@ -175,8 +191,8 @@ const SummaryClient: React.FC = () => {
               </h4>
             </div>
 
-            {/* Dynamically render options based on active category */}
-            {activeData.options.map((option, index) => {
+            {/* Dynamically render options based on active category with custom sorting */}
+            {getSortedOptions(activeCategory, activeData.options).map((option, index) => {
               // Check if this option is the currently selected prediction
               const isSelected = option.name === activeData.prediction;
 

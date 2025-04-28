@@ -30,7 +30,7 @@ const DemographicDataContext = createContext<{
   isLoading: true
 });
 
-// Function to transform API data into our component format
+// Function to transform API data response into our component format
 const transformApiData = (apiData: any): DemographicData => {
   // Process race data
   const raceOptions: DemographicOption[] = Object.entries(apiData.race).map(([key, value]) => ({
@@ -135,7 +135,7 @@ const DemographicDataProvider: React.FC<DemographicDataProviderProps> = ({
             onClick={() => router.push('/result')}
             className="px-6 py-2 bg-black text-white rounded hover:bg-gray-800"
           >
-            Go to Upload Page
+            Go to Upload Page or take a Picture with your device
           </button>
         </div>
       )}
