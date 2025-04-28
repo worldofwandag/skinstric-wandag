@@ -6,34 +6,28 @@ import radioButton from "../assets/ui/radioButton.png";
 import activeRadioButton from "../assets/ui/activeRadioButton.png";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useDemographicData, DemographicData } from "../components/DemographicDataProvider";
 
 const needDominantBaselineFix = true;
 
-// Define the types for our demographics data
+// Define the types for option data
 interface DemographicOption {
   name: string;
   confidence: number;
 }
 
-interface CategoryData {
-  prediction: string;
-  confidence: number;
-  options: DemographicOption[];
-}
+const SummaryClient: React.FC = () => {
+  // Get data from context
+  const { data } = useDemographicData();
+  
+  // This should never happen as the provider handles the null case,
+  // but TypeScript requires this check
+  if (!data) {
+    return null;
+  }
 
-interface DemographicData {
-  race: CategoryData;
-  age: CategoryData;
-  sex: CategoryData;
-}
-
-interface SummaryClientProps {
-  data: DemographicData;
-}
-
-const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
-  // Create a state for the data that can be modified by user selections
-  const [data, setData] = useState<DemographicData>(initialData);
+  // Create a local state to manage user selections
+  const [localData, setLocalData] = useState<DemographicData>(data);
 
   // Default active category is "race"
   const [activeCategory, setActiveCategory] = useState<"race" | "age" | "sex">(
@@ -51,7 +45,7 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
     selectedOption: DemographicOption
   ) => {
     // Update the data state with the new selection
-    setData((prevData) => ({
+    setLocalData((prevData) => ({
       ...prevData,
       [category]: {
         ...prevData[category],
@@ -62,7 +56,7 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
   };
 
   // Get active category data
-  const activeData = data[activeCategory];
+  const activeData = localData[activeCategory];
 
   return (
     <>
@@ -78,7 +72,7 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
             } flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t`}
             onClick={() => handleCategoryClick("race")}
           >
-            <p className="text-base font-semibold">{data.race.prediction}</p>
+            <p className="text-base font-semibold">{localData.race.prediction}</p>
             <h4 className="text-base font-semibold mb-1">RACE</h4>
           </div>
 
@@ -91,7 +85,7 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
             } flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t`}
             onClick={() => handleCategoryClick("age")}
           >
-            <p className="text-base font-semibold">{data.age.prediction}</p>
+            <p className="text-base font-semibold">{localData.age.prediction}</p>
             <h4 className="text-base font-semibold mb-1">AGE</h4>
           </div>
 
@@ -104,7 +98,7 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
             } flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t`}
             onClick={() => handleCategoryClick("sex")}
           >
-            <p className="text-base font-semibold">{data.sex.prediction}</p>
+            <p className="text-base font-semibold">{localData.sex.prediction}</p>
             <h4 className="text-base font-semibold mb-1">SEX</h4>
           </div>
         </div>
@@ -114,21 +108,21 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
           {/* RACE TITLE */}
           {activeCategory === "race" && (
             <p className="hidden md:block md:absolute text-[40px] mb-2 left-5 top-2">
-              {data.race.prediction}
+              {localData.race.prediction}
             </p>
           )}
 
           {/* AGE TITLE */}
           {activeCategory === "age" && (
             <p className="hidden md:block md:absolute text-[40px] mb-2 left-7 top-4">
-              {data.age.prediction} y.o.
+              {localData.age.prediction} y.o.
             </p>
           )}
 
           {/* SEX TITLE */}
           {activeCategory === "sex" && (
             <p className="hidden md:block md:absolute text-[40px] mb-2 left-7 top-4">
-              {data.sex.prediction}
+              {localData.sex.prediction}
             </p>
           )}
 
