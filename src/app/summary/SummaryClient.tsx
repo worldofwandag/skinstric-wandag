@@ -4,6 +4,10 @@ import React, { useState } from "react";
 import Image from "next/image";
 import radioButton from "../assets/ui/radioButton.png";
 import activeRadioButton from "../assets/ui/activeRadioButton.png";
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
+const needDominantBaselineFix = true;
 
 // Define the types for our demographics data
 interface DemographicOption {
@@ -30,9 +34,11 @@ interface SummaryClientProps {
 const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
   // Create a state for the data that can be modified by user selections
   const [data, setData] = useState<DemographicData>(initialData);
-  
+
   // Default active category is "race"
-  const [activeCategory, setActiveCategory] = useState<"race" | "age" | "sex">("race");
+  const [activeCategory, setActiveCategory] = useState<"race" | "age" | "sex">(
+    "race"
+  );
 
   // Function to handle category box click
   const handleCategoryClick = (category: "race" | "age" | "sex") => {
@@ -40,15 +46,18 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
   };
 
   // Function to handle option selection (when user clicks on an option in the right section)
-  const handleOptionSelect = (category: "race" | "age" | "sex", selectedOption: DemographicOption) => {
+  const handleOptionSelect = (
+    category: "race" | "age" | "sex",
+    selectedOption: DemographicOption
+  ) => {
     // Update the data state with the new selection
-    setData(prevData => ({
+    setData((prevData) => ({
       ...prevData,
       [category]: {
         ...prevData[category],
         prediction: selectedOption.name,
-        confidence: selectedOption.confidence
-      }
+        confidence: selectedOption.confidence,
+      },
     }));
   };
 
@@ -61,26 +70,38 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
       <div className="grid md:grid-cols-[1.5fr_8.5fr_3.15fr] gap-4 mt-10 mb-40 md:gap-4 pb-0 md:pb-0 md:mb-0">
         <div className="bg-white-100 space-y-3 md:flex md:flex-col h-[62%]">
           {/* RACE BOX */}
-          <div 
-            className={`p-3 cursor-pointer  ${activeCategory === "race" ? "bg-[#1A1B1C] text-white hover:bg-black" : "bg-[#F3F3F4]"} flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t`}
+          <div
+            className={`p-3 cursor-pointer  ${
+              activeCategory === "race"
+                ? "bg-[#1A1B1C] text-white hover:bg-black"
+                : "bg-[#F3F3F4]"
+            } flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t`}
             onClick={() => handleCategoryClick("race")}
           >
             <p className="text-base font-semibold">{data.race.prediction}</p>
             <h4 className="text-base font-semibold mb-1">RACE</h4>
           </div>
-          
+
           {/* AGE BOX */}
-          <div 
-            className={`p-3 cursor-pointer  ${activeCategory === "age" ? "bg-[#1A1B1C] text-white hover:bg-black" : "bg-[#F3F3F4]"} flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t`}
+          <div
+            className={`p-3 cursor-pointer  ${
+              activeCategory === "age"
+                ? "bg-[#1A1B1C] text-white hover:bg-black"
+                : "bg-[#F3F3F4]"
+            } flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t`}
             onClick={() => handleCategoryClick("age")}
           >
             <p className="text-base font-semibold">{data.age.prediction}</p>
             <h4 className="text-base font-semibold mb-1">AGE</h4>
           </div>
-          
+
           {/* SEX BOX */}
-          <div 
-            className={`p-3 cursor-pointer  ${activeCategory === "sex" ? "bg-[#1A1B1C] text-white hover:bg-black" : "bg-[#F3F3F4]"} flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t`}
+          <div
+            className={`p-3 cursor-pointer  ${
+              activeCategory === "sex"
+                ? "bg-[#1A1B1C] text-white hover:bg-black"
+                : "bg-[#F3F3F4]"
+            } flex-1 flex flex-col justify-between hover:bg-[#E1E1E2] border-t`}
             onClick={() => handleCategoryClick("sex")}
           >
             <p className="text-base font-semibold">{data.sex.prediction}</p>
@@ -96,14 +117,14 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
               {data.race.prediction}
             </p>
           )}
-          
+
           {/* AGE TITLE */}
           {activeCategory === "age" && (
             <p className="hidden md:block md:absolute text-[40px] mb-2 left-7 top-4">
               {data.age.prediction} y.o.
             </p>
           )}
-          
+
           {/* SEX TITLE */}
           {activeCategory === "sex" && (
             <p className="hidden md:block md:absolute text-[40px] mb-2 left-7 top-4">
@@ -113,32 +134,27 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
 
           {/* ACTIVE CIRCLE (RACE/AGE/SEX) */}
           <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2">
-            <svg className="w-full h-full" viewBox="0 0 100 100">
-              <circle
-                cx="50"
-                cy="50"
-                r="50"
-                className="text-gray-200"
-                stroke="currentColor"
-                strokeWidth="1"
-                fill="transparent"
-              ></circle>
-              <circle
-                className="circle"
-                stroke="currentColor"
-                strokeWidth="1"
-                fill="transparent"
-                strokeLinecap="round"
-                strokeDasharray="251.32741228718345"
-                strokeDashoffset={251.32741228718345 * (1 - activeData.confidence / 100)}
-                transform="rotate(-90 50 50)"
-                cx="50"
-                cy="50"
-                r="50"
-              ></circle>
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-3xl md:text-5xl font-normal">{activeData.confidence}%</p>
+            <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <CircularProgressbar
+                  value={activeData.confidence}
+                  strokeWidth={1}
+                  className="text-[#1A1B1C]"
+                  styles={buildStyles({
+                    pathColor: "#1A1B1C",
+                    textColor: "#1A1B1C",
+                    pathTransitionDuration: 0.8,
+                    strokeLinecap: "butt",
+                    textSize: "14px",
+                  })}
+                />
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <p className="text-3xl md:text-[40px] font-normal">
+                  {activeData.confidence}
+                  <span className="absolute text-xl md:text-3xl">%</span>
+                </p>
+              </div>
             </div>
           </div>
 
@@ -163,10 +179,10 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
             {activeData.options.map((option, index) => {
               // Check if this option is the currently selected prediction
               const isSelected = option.name === activeData.prediction;
-              
+
               return (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className={`flex items-center justify-between h-[48px] hover:bg-[#E1E1E2] px-4 cursor-pointer ${
                     isSelected ? "bg-[#1A1B1C] text-white hover:bg-black" : ""
                   }`}
