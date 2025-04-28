@@ -134,21 +134,27 @@ const SummaryClient: React.FC<SummaryClientProps> = ({ data: initialData }) => {
 
           {/* ACTIVE CIRCLE (RACE/AGE/SEX) */}
           <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2">
-            <div className="relative md:absolute w-full max-w-[384px] aspect-square mb-4 md:right-5 md:bottom-2">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <CircularProgressbar
-                  value={activeData.confidence}
-                  strokeWidth={1}
-                  className="text-[#1A1B1C]"
-                  styles={buildStyles({
-                    pathColor: "#1A1B1C",
-                    textColor: "#1A1B1C",
-                    pathTransitionDuration: 0.8,
-                    strokeLinecap: "butt",
-                    textSize: "14px",
-                  })}
-                />
-              </div>
+            {/* This additional wrapper with zoom-resistant styling fixes the zoom issue */}
+            <div style={{ 
+              width: '100%', 
+              height: '100%', 
+              maxHeight: '384px',
+              position: 'relative',
+              transform: 'scale(1)',
+              transformOrigin: 'center'
+            }}>
+              <CircularProgressbar
+                value={activeData.confidence}
+                strokeWidth={1}
+                className="text-[#1A1B1C]"
+                styles={buildStyles({
+                  pathColor: "#1A1B1C",
+                  textColor: "#1A1B1C",
+                  pathTransitionDuration: 0.8,
+                  strokeLinecap: "butt",
+                  textSize: "14px",
+                })}
+              />
               <div className="absolute inset-0 flex items-center justify-center">
                 <p className="text-3xl md:text-[40px] font-normal">
                   {activeData.confidence}

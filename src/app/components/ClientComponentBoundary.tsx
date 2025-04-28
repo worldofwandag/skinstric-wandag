@@ -230,7 +230,7 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
       {isLoading && (
         <div className="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center z-11">
           <div className="bg-white p-4 rounded-md">
-            <p className="animate-pulse">Processing image...</p>
+            <p className="animate-pulse text-2xl">Processing image...</p>
           </div>
         </div>
       )}
