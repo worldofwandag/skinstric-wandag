@@ -47,7 +47,9 @@ const Page = () => {
           />
 
           {/* Camera Icon and Text */}
+          <Link href={"/camera"}>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
+            
             <Image
               src={cameraIcon}
               alt="Camera Icon"
@@ -55,6 +57,7 @@ const Page = () => {
               width={136}
               height={136}
             />
+            
 
             <div className="absolute bottom-[1%] right-[90px] md:top-[30.9%] md:right-[-12px] translate-y-[-20px]">
               <p className="text-xs md:text-sm font-normal mt-1 leading-[24px]">
@@ -71,6 +74,7 @@ const Page = () => {
               />
             </div>
           </div>
+          </Link>
         </div>
 
         {/* RIGHT SIDE - Client Component Boundary */}
