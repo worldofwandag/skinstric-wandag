@@ -51,14 +51,14 @@ const CameraSectionClient: React.FC<CameraSectionProps> = ({
         alt="Diamond Large"
         width={482}
         height={482}
-        className="absolute w-[270px] h-[270px] md:w-[482px] md:h-[482px] animate-spin-slower"
+        className="absolute w-[270px] h-[270px] md:w-[482px] md:h-[482px] animate-spin-slow rotate-200"
       />
       <Image
         src={ResDiamondMedium}
         alt="DiamondMedium"
         width={444.34}
         height={444.34}
-        className="absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slow"
+        className="absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slower rotate-190"
       />
       <Image
         src={ResDiamondSmall}

@@ -13,6 +13,15 @@ a {
 .animate-spin-slowest {
   animation: spin 85s linear infinite;
 }
+.animate-spin-load {
+  animation: spin 5s linear infinite;
+}
+.animate-spin-loader {
+  animation: spin 10s linear infinite;
+}
+.animate-spin-loadest {
+  animation: spin 15s linear infinite;
+}
 
 .diamond-container {
   pointer-events: none;

@@ -71,7 +71,7 @@ async function submitForm(
   if (step === 2) {
     const location = formData.get("location") as string;
     const name = prevState.name || "";
-    
+
     // Check if this is an API call submission
     const isApiCall = formData.get("apiCall") === "true";
 
@@ -182,24 +182,22 @@ function FormInput({ error }: { error?: string[] }) {
   );
 }
 
-
-
 // Main Page component
 export default function Page() {
   const [state, formAction] = useActionState(submitForm, {
     step: 1,
     errors: {},
   });
-  
+
   // Local loading state
   const [loading, setLoading] = useState(false);
   const [isPending, startTransition] = useTransition();
-  
+
   // Handle API call submission
   const handleApiCall = React.useCallback(() => {
     if (state.step === 2 && !loading && state.location) {
       setLoading(true);
-      
+
       // Set a timeout to show loading animation
       setTimeout(() => {
         startTransition(() => {
@@ -211,7 +209,7 @@ export default function Page() {
       }, 1500);
     }
   }, [state.step, state.location, loading, formAction]);
-  
+
   // Trigger API call when location is set
   React.useEffect(() => {
     if (state.step === 2 && state.location && !loading && !isPending) {
@@ -294,14 +292,14 @@ export default function Page() {
           alt="Diamond Large"
           width={762}
           height={762}
-          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slow"
+          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slow rotate-190"
         />
         <Image
           src={DiamondMedium}
           alt="Diamond Medium"
           width={682}
           height={682}
-          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px] animate-spin-slower"
+          className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px] animate-spin-slower rotate-185"
         />
         <Image
           src={DiamondSmall}
@@ -313,23 +311,24 @@ export default function Page() {
       </div>
 
       {/* Buttons at bottom */}
-      <div className="absolute bottom-10 w-full flex justify-between px-10">
-        {/* BACK BUTTON */}
-        
-        <Link className="inset-0" aria-label="Back" href="/">
-          <BackBtn />
-        </Link>
 
-        {/* PROCEED BUTTON - only show when form is completed */}
-        {state.step === 3 && (
-          <Link
-            href="/result"
-            className=""
-          >
-           <ProcessBtn />
+      {/* <div className="pt-4 md:pt-0 pb-8 bg-white sticky md:static bottom-30.5 mb-0 md:mb-0"> */}
+
+        <div className="absolute bottom-38.5 md:bottom-8 w-full flex justify-between md:px-9 px-13">
+          {/* BACK BUTTON */}
+          <Link className="inset-0" aria-label="Back" href="/">
+            <BackBtn />
           </Link>
-        )}
-      </div>
+          
+          {/* PROCEED BUTTON - only show when form is completed */}
+          {state.step === 3 && (
+            <Link href="/result" className="">
+              <ProcessBtn />
+            </Link>
+          )}
+        </div>
+
+      {/* </div> */}
     </div>
   );
 }

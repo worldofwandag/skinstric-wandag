@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import BackBtn from "../components/ui/BackBtn";
-import SumBtn from "../components/ui/SumBtn";
+import HomeBtn from "../components/ui/HomeBtn";
 import SummaryClient from "./SummaryClient";
 import DemographicDataProvider from "../components/DemographicDataProvider";
 
@@ -36,7 +36,7 @@ const Page = async () => {
                 <BackBtn />
               </Link>
               <Link href="/">
-                <SumBtn />
+                <HomeBtn />
               </Link>
             </div>
           </div>

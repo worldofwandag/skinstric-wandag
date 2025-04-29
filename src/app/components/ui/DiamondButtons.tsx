@@ -90,7 +90,7 @@ const DiamondButtons: React.FC<DiamondButtonsProps> = ({ diamondImageSrc }) => {
         </div>
         <div className="flex items-center justify-center row-start-2 col-start-1">
           <button
-            className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 font-semibold leading-[24px] tracking-tight uppercase"
+            className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 font-semibold leading-[24px] tracking-tight uppercase cursor-not-allowed"
             onMouseEnter={() => setHoveredButton("cosmetic")}
             onMouseLeave={() => setHoveredButton(null)}
           >
@@ -99,7 +99,7 @@ const DiamondButtons: React.FC<DiamondButtonsProps> = ({ diamondImageSrc }) => {
         </div>
         <div className="flex items-center justify-center row-start-2 col-start-3">
           <button
-            className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 font-semibold leading-[24px] tracking-tight uppercase"
+            className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 font-semibold leading-[24px] tracking-tight uppercase cursor-not-allowed"
             onMouseEnter={() => setHoveredButton("skin")}
             onMouseLeave={() => setHoveredButton(null)}
           >
@@ -108,7 +108,7 @@ const DiamondButtons: React.FC<DiamondButtonsProps> = ({ diamondImageSrc }) => {
         </div>
         <div className="flex items-center justify-center row-start-3 col-start-2">
           <button
-            className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 font-semibold leading-[24px] tracking-tight uppercase"
+            className="w-[153.88px] h-[153.88px] bg-gray-100 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 font-semibold leading-[24px] tracking-tight uppercase cursor-not-allowed"
             onMouseEnter={() => setHoveredButton("weather")}
             onMouseLeave={() => setHoveredButton(null)}
           >

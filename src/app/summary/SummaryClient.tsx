@@ -62,9 +62,9 @@ const SummaryClient: React.FC = () => {
   const getSortedOptions = (category: "race" | "age" | "sex", options: DemographicOption[]) => {
     if (category === "age") {
       // Define the correct order of age ranges
-      const ageOrder = ["0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70+"];
+      const ageOrder = ["0-2", "3-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70+"];
       
-      // Create a new sorted array based on the predefined order
+      // Create a new sorted array based on the predefined order for age
       return [...options].sort((a, b) => {
         return ageOrder.indexOf(a.name) - ageOrder.indexOf(b.name);
       });
