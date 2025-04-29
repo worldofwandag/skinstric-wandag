@@ -10,6 +10,7 @@ import { useFormStatus } from "react-dom";
 import { useActionState } from "react";
 import BackBtn from "../components/ui/BackBtn";
 import ProcessBtn from "../components/ui/ProcessBtn";
+import LoadingDots from "../components/ui/LoadingDots";
 
 // Define the initial state for the form
 type State = {
@@ -181,16 +182,7 @@ function FormInput({ error }: { error?: string[] }) {
   );
 }
 
-// Loading Dots component
-function LoadingDots() {
-  return (
-    <div className="flex items-center justify-center space-x-4 py-8">
-      <div className="w-2 h-2 rounded-full bg-gray-800 animate-[bounce_1s_infinite_0ms] opacity-30"></div>
-      <div className="w-2 h-2 rounded-full bg-gray-800 animate-[bounce_1s_infinite_250ms] opacity-30"></div>
-      <div className="w-2 h-2 rounded-full bg-gray-800 animate-[bounce_1s_infinite_500ms] opacity-30"></div>
-    </div>
-  );
-}
+
 
 // Main Page component
 export default function Page() {

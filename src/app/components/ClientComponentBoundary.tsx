@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useModalContext } from "../utility/ModalContext"; // Import the modal context
+import LoadingDots from "./ui/LoadingDots";
 
 // Props interface for the component
 interface ImageUploadProps {
@@ -234,7 +235,10 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
       {isLoading && (
         <div className="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center z-11">
           <div className="bg-white p-4 rounded-md">
-            <p className="animate-pulse text-2xl">Processing image...</p>
+            <p className="animate-pulse text-xl opacity-30 ">Processing image...</p>
+            <div>
+            <LoadingDots />
+              </div>
           </div>
         </div>
       )}

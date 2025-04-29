@@ -3,9 +3,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import BackBtn from "./ui/BackBtn";
+import BackBtnWhite from "./ui/BackBtnWhite";
 import Image from "next/image";
 import TakePictureIcon from "../assets/ui/takePictureIcon.png";
+import LoadingDots from "./ui/LoadingDots";
 
 const CameraCapture = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -252,119 +253,114 @@ const CameraCapture = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col relative">
-      <div className="flex-1 flex flex-col items-center justify-center p-4">
-        {/* <h1 className="text-xl font-bold mb-6">Take a Selfie</h1> */}
+    <div className="relative h-[92vh] w-screen overflow-hidden bg-gray-900">
+      {/* Error message */}
+      {error && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-30 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded max-w-md">
+          <p>{error}</p>
+        </div>
+      )}
 
-        {/* Error message */}
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 max-w-md">
-            <p>{error}</p>
-          </div>
-        )}
+      {/* Video status */}
+      {stream && !isVideoReady && !capturedImage && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-30 bg-gray-100 border border-blue-400 text-blue-700 px-4 py-3 rounded max-w-md">
+          <p>Initializing camera, please wait...</p>
+        </div>
+      )}
 
-        {/* Video status */}
-        {stream && !isVideoReady && !capturedImage && (
-          <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4 max-w-md">
-            <p>Initializing camera, please wait...</p>
-          </div>
-        )}
-
-        {/* Camera view */}
-        {stream && !capturedImage && (
-          <div className="relative w-full max-w-md flex-col justify-between items-center ">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className="w-full h-auto"
-              style={{ backgroundColor: "#f0f0f0" }} // Background to make it visible
-            />
-
-            {/* Button to press to take picture */}
-            {isVideoReady && (
-              <div className="absolute flex items-center justify-end space-x-5 right-8 top-25">
-                <div className="font-semibold text-sm tracking-tight leading-[14px] text-[#FCFCFC] ">TAKE PICTURE</div>
-                <div className="transform hover:scale-105 ease-in-out duration-300">
-                  <Image
-                    src={TakePictureIcon}
-                    alt="Take Picture"
-                    width={60}
-                    height={60}
-                    onClick={capturePhoto}
-                    className="w-16 h-16 cursor-pointer"
-                  />
-                </div>
-              </div>
-            )}
-
-            <div className="mt-20 text-center relative">
-              <p className="text-sm mb-2 font-normal leading-6 text-[#FCFCFC] ">
-                TO GET BETTER RESULTS MAKE SURE TO HAVE
-              </p>
-              <div className="flex justify-between text-xs leading-6 text-[#FCFCFC] ">
-                <p>◇ NEUTRAL EXPRESSION</p>
-                <p>◇ FRONTAL POSE</p>
-                <p>◇ ADEQUATE LIGHTING</p>
+      {/* Camera view - Full screen */}
+      {stream && !capturedImage && (
+        <div className="absolute inset-0 z-10">
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          
+          {/* Take picture button - Vertically centered on right side */}
+          {isVideoReady && (
+            <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 flex items-center space-x-3">
+              <div className="font-semibold text-sm tracking-tight leading-[14px] text-[#FCFCFC]">TAKE PICTURE</div>
+              <div className="transform hover:scale-105 ease-in-out duration-300">
+                <Image
+                  src={TakePictureIcon}
+                  alt="Take Picture"
+                  width={60}
+                  height={60}
+                  onClick={capturePhoto}
+                  className="w-16 h-16 cursor-pointer"
+                />
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Preview captured image */}
-        {capturedImage && (
-          <div className="w-full max-w-md">
-            <h2 className="text-lg font-semibold mb-2">Preview</h2>
-            <img
-              src={capturedImage}
-              alt="Captured selfie"
-              className="w-full h-auto rounded-lg mb-4"
-              style={{ backgroundColor: "#f0f0f0" }} // Background to make it visible
-              onError={(e) => {
-                console.error("Image display error", e);
-                setError("Error displaying captured image");
-              }}
-            />
-            <div className="flex justify-center space-x-4 mt-4">
+          {/* Tips text - Bottom of screen */}
+          <div className="absolute bottom-16 left-0 right-0 text-center z-20">
+            <p className="text-sm mb-2 font-normal leading-6 text-[#FCFCFC]">
+              TO GET BETTER RESULTS MAKE SURE TO HAVE
+            </p>
+            <div className="flex justify-center space-x-8 text-xs leading-6 text-[#FCFCFC]">
+              <p>◇ NEUTRAL EXPRESSION</p>
+              <p>◇ FRONTAL POSE</p>
+              <p>◇ ADEQUATE LIGHTING</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Preview captured image - Full screen */}
+      {capturedImage && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center">
+          <img
+            src={capturedImage}
+            alt="Captured selfie"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute text-sm leading-6 uppercase text-[#FCFCFC] top-40">GREAT SHOT!</div>
+          
+          {/* Preview controls overlay */}
+          <div className="absolute bottom-16 left-0 right-0 flex flex-col items-center z-20">
+            <h2 className="text-lg font-semibold mb-7 text-[#FCFCFC] drop-shadow-md">Preview</h2>
+            <div className="flex justify-center space-x-6">
               <button
-                className="px-6 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                className="px-6 py-2 bg-gray-200 text-gray-800 cursor-pointer hover:bg-gray-300 shadow-md text-sm"
                 onClick={resetCamera}
               >
                 Retake
               </button>
               <button
-                className="px-6 py-2 bg-black text-white rounded hover:bg-gray-800"
+                className="px-6 py-2 bg-[#1A1B1C] text-[#FCFCFC] cursor-pointer hover:bg-gray-800 shadow-md text-sm"
                 onClick={uploadImageToAPI}
                 disabled={isLoading}
               >
-                {isLoading ? "Uploading..." : "Use This Photo"}
+                {isLoading ? 'Uploading...' : 'Use This Photo'}
               </button>
             </div>
           </div>
-        )}
-
-        {/* Hidden canvas for capturing photos */}
-        <canvas
-          ref={canvasRef}
-          className="hidden"
-          style={{ border: "1px solid red" }} // Making it visible for debugging
-        />
-      </div>
+        </div>
+      )}
 
       {/* Back button */}
-      <div className="absolute bottom-8 left-8">
+      <div className="absolute md:bottom-8 bottom-40 left-8 z-20">
         <Link href="/result">
-          <BackBtn />
+          <BackBtnWhite />
         </Link>
       </div>
 
+      {/* Hidden canvas for capturing photos */}
+      <canvas
+        ref={canvasRef}
+        className="hidden"
+      />
+
       {/* Loading overlay */}
       {isLoading && (
-        <div className="fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <p className="text-xl animate-pulse">Analyzing image...</p>
-            <p className="mt-2">Please wait a moment</p>
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-[#FCFCFC]  opacity-50 p-6 rounded-lg shadow-lg text-center">
+            <p className="text-xl animate-pulse">ANALYZING IMAGE...</p>
+            <LoadingDots />
           </div>
         </div>
       )}
