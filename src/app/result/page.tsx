@@ -11,6 +11,7 @@ import ResGalleryLine from "../assets/ui/ResGalleryLine.png";
 import BackBtn from "../components/ui/BackBtn";
 import ClientComponentBoundary from "../components/ClientComponentBoundary";
 import ProcessBtn from "../components/ui/ProcessBtn";
+import CameraSectionClient from "../components/CameraSectionClient";
 
 const Page = () => {
   return (
@@ -19,63 +20,14 @@ const Page = () => {
         <p className="font-semibold text-xs md:text-sm">TO START ANALYSIS</p>
       </div>
       <div className="flex-[0.4] md:flex-1 flex flex-col md:flex-row items-center xl:justify-center relative mb-0 md:mb-30 space-y-[-20px] md:space-y-0">
-        {/* LEFT SIDE */}
-        <div className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-y-[0%] -translate-y-[1%] md:-translate-x-full flex flex-col items-center cursor-pointer justify-center">
-          {/* for anchoring */}
-          <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]" />
-
-          <Image
-            src={ResDiamondLarge}
-            alt="Diamond Large"
-            width={482}
-            height={482}
-            className="absolute w-[270px] h-[270px] md:w-[482px] md:h-[482px] animate-spin-slower"
-          />
-          <Image
-            src={ResDiamondMedium}
-            alt="DiamondMedium"
-            width={444.34}
-            height={444.34}
-            className="absolute w-[230px] h-[230px] md:w-[444.34px] md:h-[444.34px] animate-spin-slow"
-          />
-          <Image
-            src={ResDiamondSmall}
-            alt="DiamondSmall"
-            width={405.18}
-            height={405.18}
-            className="absolute w-[190px] h-[190px] md:w-[405.18px] md:h-[405.18px] animate-spin-slowest"
-          />
-
-          {/* Camera Icon and Text */}
-          <Link href={"/camera"}>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            
-            <Image
-              src={cameraIcon}
-              alt="Camera Icon"
-              className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer"
-              width={136}
-              height={136}
-            />
-            
-
-            <div className="absolute bottom-[1%] right-[90px] md:top-[30.9%] md:right-[-12px] translate-y-[-20px]">
-              <p className="text-xs md:text-sm font-normal mt-1 leading-[24px]">
-                ALLOW A.I.
-                <br />
-                TO SCAN YOUR FACE
-              </p>
-              <Image
-                src={ResScanLine}
-                alt="Scan Line"
-                className="absolute hidden md:block md:right-[143px] md:top-[20px]"
-                width={66}
-                height={59}
-              />
-            </div>
-          </div>
-          </Link>
-        </div>
+        {/* LEFT SIDE - Client Component with Camera UI and Modal */}
+        <CameraSectionClient 
+          cameraIcon={cameraIcon}
+          ResScanLine={ResScanLine}
+          ResDiamondLarge={ResDiamondLarge}
+          ResDiamondMedium={ResDiamondMedium}
+          ResDiamondSmall={ResDiamondSmall}
+        />
 
         {/* RIGHT SIDE - Client Component Boundary */}
         <ClientComponentBoundary 
@@ -94,7 +46,6 @@ const Page = () => {
         </Link>
 
         {/* SUMMARY BUTTON*/}
-        {/* small screens */}
         <Link href="/select">
           <ProcessBtn />
         </Link>

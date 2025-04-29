@@ -11,14 +11,17 @@ const CameraCapture = () => {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [permissionModal, setPermissionModal] = useState(true);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  // Request camera permission automatically on component mount
+  useEffect(() => {
+    requestCameraPermission();
+  }, []);
+
   // Request camera permission
   const requestCameraPermission = async () => {
-    setPermissionModal(false);
     setError(null);
     
     try {
@@ -72,11 +75,6 @@ const CameraCapture = () => {
       };
     }
   }, [stream]);
-
-  // Deny camera permission
-  const denyCameraPermission = () => {
-    router.push('/result');
-  };
 
   // Take a photo - wait for video to be ready
   const capturePhoto = () => {
@@ -243,30 +241,6 @@ const CameraCapture = () => {
 
   return (
     <div className="min-h-screen flex flex-col relative">
-      {/* Permission Modal */}
-      {permissionModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-          <div className="bg-[#1A1B1C] p-6 rounded-lg max-w-md text-center">
-            <h2 className="text-[#FCFCFC] text-xl font-bold mb-4">ALLOW A.I. TO ACCESS YOUR CAMERA</h2>
-            <p className="text-[#FCFCFC] mb-6">This app needs camera access to take a selfie for analysis</p>
-            <div className="flex justify-center space-x-4">
-              <button 
-                className="px-6 py-2 bg-gray-600 text-[#FCFCFC] rounded hover:bg-gray-700"
-                onClick={denyCameraPermission}
-              >
-                DENY
-              </button>
-              <button 
-                className="px-6 py-2 bg-[#FCFCFC] text-[#1A1B1C] rounded hover:bg-gray-200 font-bold"
-                onClick={requestCameraPermission}
-              >
-                ALLOW
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      
       <div className="flex-1 flex flex-col items-center justify-center p-4">
         <h1 className="text-xl font-bold mb-6">Take a Selfie</h1>
         

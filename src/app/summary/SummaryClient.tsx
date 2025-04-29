@@ -155,7 +155,7 @@ const SummaryClient: React.FC = () => {
             }}>
               <CircularProgressbar
                 value={activeData.confidence}
-                strokeWidth={1}
+                strokeWidth={1.7}
                 className="text-[#1A1B1C]"
                 styles={buildStyles({
                   pathColor: "#1A1B1C",

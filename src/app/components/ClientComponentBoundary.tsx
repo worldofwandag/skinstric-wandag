@@ -163,8 +163,8 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
   return (
     <>
       <div 
-        className="relative md:absolute md:left-[45%] lg:left-[50%] xl:left-[55%] flex flex-col items-center cursor-pointer mt-12 md:mt-0 justify-center md:-translate-y-[0%] -translate-y-[10%]"
-        onClick={handleGalleryClick}
+        className="relative md:absolute md:left-[45%] lg:left-[50%] xl:left-[55%] flex flex-col items-center  mt-12 md:mt-0 justify-center md:-translate-y-[0%] -translate-y-[10%]"
+        
       >
         <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]" />
 
@@ -190,6 +190,7 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
             src={galleryIcon}
             alt="Photo Upload Icon"
             className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer"
+            onClick={handleGalleryClick}
             width={136}
             height={136}
           />
