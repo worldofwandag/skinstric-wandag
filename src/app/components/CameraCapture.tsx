@@ -1,9 +1,11 @@
-'use client';
+"use client";
 
 import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import BackBtn from "./ui/BackBtn";
+import Image from "next/image";
+import TakePictureIcon from "../assets/ui/takePictureIcon.png";
 
 const CameraCapture = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -23,23 +25,23 @@ const CameraCapture = () => {
   // Request camera permission
   const requestCameraPermission = async () => {
     setError(null);
-    
+
     try {
       console.log("Requesting camera access...");
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: {
           width: { ideal: 1280 },
-          height: { ideal: 720 }
+          height: { ideal: 720 },
         },
-        audio: false
+        audio: false,
       });
-      
+
       console.log("Camera access granted");
       setStream(mediaStream);
     } catch (err) {
       console.error("Error accessing camera:", err);
       setError(`Camera access error: ${err}`);
-      setTimeout(() => router.push('/result'), 3000);
+      setTimeout(() => router.push("/result"), 3000);
     }
   };
 
@@ -48,29 +50,33 @@ const CameraCapture = () => {
     if (stream && videoRef.current) {
       // Set the stream to the video element
       videoRef.current.srcObject = stream;
-      
+
       // Listen for the loadedmetadata event
       const handleLoadedMetadata = () => {
         console.log("Video metadata loaded, starting playback");
         if (videoRef.current) {
-          videoRef.current.play()
+          videoRef.current
+            .play()
             .then(() => {
               console.log("Video playback started");
               setIsVideoReady(true);
             })
-            .catch(err => {
+            .catch((err) => {
               console.error("Error starting video playback:", err);
               setError(`Video playback error: ${err}`);
             });
         }
       };
-      
-      videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
-      
+
+      videoRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
+
       // Cleanup function
       return () => {
         if (videoRef.current) {
-          videoRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
+          videoRef.current.removeEventListener(
+            "loadedmetadata",
+            handleLoadedMetadata
+          );
         }
       };
     }
@@ -79,53 +85,55 @@ const CameraCapture = () => {
   // Take a photo - wait for video to be ready
   const capturePhoto = () => {
     setError(null);
-    
+
     if (!videoRef.current || !canvasRef.current) {
       setError("Video or canvas reference not available");
       return;
     }
-    
+
     if (!isVideoReady) {
       setError("Video is not ready yet, please wait a moment");
       return;
     }
-    
+
     try {
       const video = videoRef.current;
       const canvas = canvasRef.current;
-      
+
       // Make sure we have valid dimensions
       if (!video.videoWidth || !video.videoHeight) {
         console.error("Video dimensions not available");
         setError("Cannot capture: video dimensions not available");
         return;
       }
-      
-      console.log(`Capturing from video: ${video.videoWidth}x${video.videoHeight}`);
-      
+
+      console.log(
+        `Capturing from video: ${video.videoWidth}x${video.videoHeight}`
+      );
+
       // Set canvas size to match video
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-      
-      const context = canvas.getContext('2d');
+
+      const context = canvas.getContext("2d");
       if (!context) {
         setError("Could not get canvas context");
         return;
       }
-      
+
       // Clear the canvas first
       context.fillStyle = "#FFFFFF";
       context.fillRect(0, 0, canvas.width, canvas.height);
-      
+
       // Draw video frame to canvas
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
+
       // Convert to data URL
-      const imageDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+      const imageDataUrl = canvas.toDataURL("image/jpeg", 0.9);
       console.log(`Captured image data URL length: ${imageDataUrl.length}`);
-      
+
       setCapturedImage(imageDataUrl);
-      
+
       // Stop camera stream
       stopCameraStream();
     } catch (error) {
@@ -137,7 +145,7 @@ const CameraCapture = () => {
   // Stop camera stream
   const stopCameraStream = () => {
     if (stream) {
-      stream.getTracks().forEach(track => {
+      stream.getTracks().forEach((track) => {
         console.log(`Stopping track: ${track.kind}`);
         track.stop();
       });
@@ -151,16 +159,16 @@ const CameraCapture = () => {
     setCapturedImage(null);
     setError(null);
     setIsVideoReady(false);
-    
+
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: {
           width: { ideal: 1280 },
-          height: { ideal: 720 }
+          height: { ideal: 720 },
         },
-        audio: false
+        audio: false,
       });
-      
+
       setStream(mediaStream);
     } catch (err) {
       console.error("Error restarting camera:", err);
@@ -174,10 +182,10 @@ const CameraCapture = () => {
       setError("No image captured");
       return;
     }
-    
+
     setIsLoading(true);
     setError(null);
-    
+
     try {
       // Store in localStorage
       try {
@@ -186,11 +194,11 @@ const CameraCapture = () => {
       } catch (error) {
         console.warn("Failed to store in localStorage:", error);
       }
-      
+
       // Get base64 data without prefix for API
-      const base64Data = capturedImage.split(',')[1];
+      const base64Data = capturedImage.split(",")[1];
       console.log(`API data length: ${base64Data.length}`);
-      
+
       // Send to API
       console.log("Sending API request...");
       const response = await fetch(
@@ -203,25 +211,29 @@ const CameraCapture = () => {
           body: JSON.stringify({ image: base64Data }),
         }
       );
-      
+
       console.log(`API response status: ${response.status}`);
-      
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error("API error response:", errorText);
         throw new Error(`API error: ${response.status}`);
       }
-      
+
       const data = await response.json();
       console.log("API response:", data);
-      
-      if (data.success === true && data.message && data.message.includes("success")) {
+
+      if (
+        data.success === true &&
+        data.message &&
+        data.message.includes("success")
+      ) {
         // Store demographic data
         localStorage.setItem("demographicData", JSON.stringify(data.data));
         console.log("Demographic data stored, redirecting to summary");
-        
+
         // Navigate to summary page
-        router.push('/select');
+        router.push("/select");
       } else {
         throw new Error("API returned unsuccessful response");
       }
@@ -242,48 +254,56 @@ const CameraCapture = () => {
   return (
     <div className="min-h-screen flex flex-col relative">
       <div className="flex-1 flex flex-col items-center justify-center p-4">
-        <h1 className="text-xl font-bold mb-6">Take a Selfie</h1>
-        
+        {/* <h1 className="text-xl font-bold mb-6">Take a Selfie</h1> */}
+
         {/* Error message */}
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 max-w-md">
             <p>{error}</p>
           </div>
         )}
-        
+
         {/* Video status */}
         {stream && !isVideoReady && !capturedImage && (
           <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4 max-w-md">
             <p>Initializing camera, please wait...</p>
           </div>
         )}
-        
+
         {/* Camera view */}
         {stream && !capturedImage && (
-          <div className="relative w-full max-w-md">
+          <div className="relative w-full max-w-md flex-col justify-between items-center ">
             <video
               ref={videoRef}
               autoPlay
               playsInline
               muted
-              className="w-full h-auto rounded-lg"
-              style={{ backgroundColor: '#f0f0f0' }} // Background to make it visible
+              className="w-full h-auto"
+              style={{ backgroundColor: "#f0f0f0" }} // Background to make it visible
             />
-            
+
+            {/* Button to press to take picture */}
             {isVideoReady && (
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                <button 
-                  className="bg-white p-2 rounded-full shadow-lg"
-                  onClick={capturePhoto}
-                >
-                  <span className="block w-12 h-12 rounded-full border-4 border-black"></span>
-                </button>
+              <div className="absolute flex items-center justify-end space-x-5 right-8 top-25">
+                <div className="font-semibold text-sm tracking-tight leading-[14px] text-[#FCFCFC] ">TAKE PICTURE</div>
+                <div className="transform hover:scale-105 ease-in-out duration-300">
+                  <Image
+                    src={TakePictureIcon}
+                    alt="Take Picture"
+                    width={60}
+                    height={60}
+                    onClick={capturePhoto}
+                    className="w-16 h-16 cursor-pointer"
+                  />
+                </div>
               </div>
             )}
-            
-            <div className="mt-20 text-center">
-              <p className="text-sm mb-2">TO GET BETTER RESULTS MAKE SURE TO HAVE</p>
-              <div className="flex justify-between text-xs px-4">
+
+            <div className="mt-20 text-center relative">
+              <p className="text-sm mb-2 font-normal leading-6 text-[#FCFCFC] ">
+                TO GET BETTER RESULTS MAKE SURE TO HAVE
+              </p>
+              <div className="flex justify-between text-xs leading-6 text-[#FCFCFC] ">
                 <p>◇ NEUTRAL EXPRESSION</p>
                 <p>◇ FRONTAL POSE</p>
                 <p>◇ ADEQUATE LIGHTING</p>
@@ -291,54 +311,54 @@ const CameraCapture = () => {
             </div>
           </div>
         )}
-        
+
         {/* Preview captured image */}
         {capturedImage && (
           <div className="w-full max-w-md">
             <h2 className="text-lg font-semibold mb-2">Preview</h2>
-            <img 
-              src={capturedImage} 
-              alt="Captured selfie" 
-              className="w-full h-auto rounded-lg mb-4" 
-              style={{ backgroundColor: '#f0f0f0' }} // Background to make it visible
+            <img
+              src={capturedImage}
+              alt="Captured selfie"
+              className="w-full h-auto rounded-lg mb-4"
+              style={{ backgroundColor: "#f0f0f0" }} // Background to make it visible
               onError={(e) => {
                 console.error("Image display error", e);
                 setError("Error displaying captured image");
               }}
             />
             <div className="flex justify-center space-x-4 mt-4">
-              <button 
+              <button
                 className="px-6 py-2 bg-gray-200 rounded hover:bg-gray-300"
                 onClick={resetCamera}
               >
                 Retake
               </button>
-              <button 
+              <button
                 className="px-6 py-2 bg-black text-white rounded hover:bg-gray-800"
                 onClick={uploadImageToAPI}
                 disabled={isLoading}
               >
-                {isLoading ? 'Uploading...' : 'Use This Photo'}
+                {isLoading ? "Uploading..." : "Use This Photo"}
               </button>
             </div>
           </div>
         )}
-        
+
         {/* Hidden canvas for capturing photos */}
-        <canvas 
-          ref={canvasRef} 
-          className="hidden" 
-          style={{ border: '1px solid red' }} // Making it visible for debugging
+        <canvas
+          ref={canvasRef}
+          className="hidden"
+          style={{ border: "1px solid red" }} // Making it visible for debugging
         />
       </div>
-      
+
       {/* Back button */}
       <div className="absolute bottom-8 left-8">
         <Link href="/result">
           <BackBtn />
         </Link>
       </div>
-      
+
       {/* Loading overlay */}
       {isLoading && (
         <div className="fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-50">

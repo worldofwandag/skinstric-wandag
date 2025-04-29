@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useModalContext } from "../utility/ModalContext";
 
 interface CameraSectionProps {
   cameraIcon: any;
@@ -20,23 +21,28 @@ const CameraSectionClient: React.FC<CameraSectionProps> = ({
   ResDiamondSmall,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const { setModalOpen } = useModalContext();
   const router = useRouter();
 
   const handleCameraClick = () => {
     setShowModal(true);
+    setModalOpen(true); // Update the shared context
   };
 
   const handleAllow = () => {
+    setShowModal(false);
+    setModalOpen(false); // Update the shared context
     router.push('/camera');
     // route is to /camera but functionality is on CameraLoading.tsx
   };
 
   const handleDeny = () => {
     setShowModal(false);
+    setModalOpen(false); // Update the shared context
   };
 
   return (
-    <div className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-y-[0%] -translate-y-[1%] md:-translate-x-full flex flex-col items-center  justify-center">
+    <div className="relative md:absolute md:left-[55%] lg:left-[50%] xl:left-[40%] md:-translate-y-[0%] -translate-y-[1%] md:-translate-x-full flex flex-col items-center justify-center">
       {/* for anchoring */}
       <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]" />
 
@@ -64,16 +70,14 @@ const CameraSectionClient: React.FC<CameraSectionProps> = ({
 
       {/* Camera Icon and Text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        
-          <Image
-            src={cameraIcon}
-            alt="Camera Icon"
-            className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer"
-            width={136}
-            height={136}
-            onClick={handleCameraClick}
-          />
-        
+        <Image
+          src={cameraIcon}
+          alt="Camera Icon"
+          className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] hover:scale-108 duration-700 ease-in-out cursor-pointer"
+          width={136}
+          height={136}
+          onClick={handleCameraClick}
+        />
 
         <div className="absolute bottom-[1%] right-[90px] md:top-[30.9%] md:right-[-12px] translate-y-[-20px]">
           <p className="text-xs md:text-sm font-normal mt-1 leading-[24px]">
@@ -93,18 +97,18 @@ const CameraSectionClient: React.FC<CameraSectionProps> = ({
 
       {/* Permission Modal */}
       {showModal && (
-        <div className="absolute md:top-[43%] md:left-[360px] md:w-[352px] z-50">
+        <div className="absolute md:top-[43%] md:left-[360px] w-[352px] z-50">
           <div className="bg-[#1A1B1C] pt-4 pb-2">
             <h2 className="text-[#FCFCFC] text-base font-semibold mb-12 leading-[24px] pl-4">ALLOW A.I. TO ACCESS YOUR CAMERA</h2>
-            <div className="flex  mt-4 border-t border-[#FCFCFC] pt-2">
+            <div className="flex mt-4 border-t border-[#FCFCFC] pt-2">
               <button 
-                className="px-7 translate-x-45  text-[#fcfcfca1] font-normal text-sm leading-4 tracking-tight cursor-pointer hover:text-gray-500"
+                className="px-7 md:translate-x-45 text-[#fcfcfca1] font-normal text-sm leading-4 tracking-tight cursor-pointer hover:text-gray-500"
                 onClick={handleDeny}
               >
                 DENY
               </button>
               <button 
-                className="px-5 translate-x-45  text-[#FCFCFC] font-semibold text-sm leading-4 tracking-tight cursor-pointer hover:text-gray-300"
+                className="px-5 md:translate-x-45 text-[#FCFCFC] font-semibold text-sm leading-4 tracking-tight cursor-pointer hover:text-gray-300"
                 onClick={handleAllow}
               >
                 ALLOW

@@ -3,6 +3,7 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useModalContext } from "../utility/ModalContext"; // Import the modal context
 
 // Props interface for the component
 interface ImageUploadProps {
@@ -24,11 +25,14 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadSuccessful, setUploadSuccessful] = useState(false);
+  const { isModalOpen } = useModalContext(); // Get the modal state
   const router = useRouter();
 
   // Handle gallery icon click
   const handleGalleryClick = () => {
-    fileInputRef.current?.click();
+    if (!isModalOpen) { // Only trigger if modal is not open
+      fileInputRef.current?.click();
+    }
   };
 
   // Safely store data in localStorage with fallback
@@ -163,8 +167,7 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
   return (
     <>
       <div 
-        className="relative md:absolute md:left-[45%] lg:left-[50%] xl:left-[55%] flex flex-col items-center  mt-12 md:mt-0 justify-center md:-translate-y-[0%] -translate-y-[10%]"
-        
+        className={`relative md:absolute md:left-[45%] lg:left-[50%] xl:left-[55%] flex flex-col items-center mt-12 md:mt-0 justify-center md:-translate-y-[0%] -translate-y-[10%] transition-opacity duration-300 ${isModalOpen ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}
       >
         <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]" />
 
@@ -212,7 +215,7 @@ const ClientComponentBoundary: React.FC<ImageUploadProps> = ({
       </div>
 
       {/* Preview Image */}
-      <div className="absolute top-[-75px] right-7 md:top-[-50px] md:right-8">
+      <div className={`absolute top-[-75px] right-7 md:top-[-50px] md:right-8 transition-opacity duration-300 ${isModalOpen ? 'opacity-50' : 'opacity-100'}`}>
         <h1 className="text-xs md:text-sm font-normal mb-1">Preview</h1>
         <div className="w-24 h-24 md:w-32 md:h-32 border border-gray-300 overflow-hidden">
           {previewImage && (
