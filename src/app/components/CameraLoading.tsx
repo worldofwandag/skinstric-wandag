@@ -21,8 +21,8 @@ const CameraLoading = () => {
   }, [router]);
   
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <div className="relative">
+    <div className="flex flex-col items-center justify-center h-[70vh]">
+      <div className="flex-0 flex flex-col md:flex-row items-center justify-center relative">
         <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]" />
         
         <Image
@@ -47,25 +47,27 @@ const CameraLoading = () => {
           className="absolute w-[190px] h-[190px] md:w-[405.18px] md:h-[405.18px] animate-spin-slowest"
         />
         
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-center animate-pulse">
           <Image
             src={cameraIcon}
             alt="Camera Icon"
             width={136}
             height={136}
-            className="w-[100px] h-[100px] md:w-[136px] md:h-[136px]"
+            className="w-[100px] h-[100px] md:w-[136px] md:h-[136px] animate-pulse-grow"
           />
+          <p className="absolute font-semibold text-sm md:text-base leading-[24px] tracking-tight translate-y-22 animate-pulse">SETTING UP CAMERA ...</p>
         </div>
+        
       </div>
       
-      <p className="text-sm md:text-base mt-8">SETTING UP CAMERA ...</p>
       
-      <div className="mt-12 text-center">
-        <p className="text-xs md:text-sm mb-4">TO GET BETTER RESULTS MAKE SURE TO HAVE</p>
+      
+      <div className="mt-0 text-center">
+        <p className="text-xs md:text-sm mb-4 leading-6">TO GET BETTER RESULTS MAKE SURE TO HAVE</p>
         <div className="flex justify-center space-x-8">
-          <p className="text-xs md:text-sm">◇ NEUTRAL EXPRESSION</p>
-          <p className="text-xs md:text-sm">◇ FRONTAL POSE</p>
-          <p className="text-xs md:text-sm">◇ ADEQUATE LIGHTING</p>
+          <p className="text-xs md:text-sm leading-6">◇ NEUTRAL EXPRESSION</p>
+          <p className="text-xs md:text-sm leading-6">◇ FRONTAL POSE</p>
+          <p className="text-xs md:text-sm leading-6">◇ ADEQUATE LIGHTING</p>
         </div>
       </div>
     </div>

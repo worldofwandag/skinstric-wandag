@@ -223,7 +223,7 @@ const CameraCapture = () => {
         console.log("Demographic data stored, redirecting to summary");
         
         // Navigate to summary page
-        router.push('/summary');
+        router.push('/select');
       } else {
         throw new Error("API returned unsuccessful response");
       }

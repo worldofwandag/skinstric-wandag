@@ -10,7 +10,7 @@ import CameraLoading from "../components/CameraLoading";
 
 const CameraPage = () => {
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
+    <div className="md:h-[85vh] h-[65vh] bg-white flex items-center justify-center">
       <CameraLoading />
     </div>
   );

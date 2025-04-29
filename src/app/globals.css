@@ -24,3 +24,19 @@ a {
   height: 602px !important;
   opacity: 1 !important;
 }
+
+.animate-pulse-grow {
+  animation: grow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes grow-pulse {
+  0% {
+    transform: scale(0.95);
+  }
+  40% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(0.95);
+  }
+}

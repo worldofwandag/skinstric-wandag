@@ -5,7 +5,7 @@ import CameraCapture from "../../components/CameraCapture";
 
 const CameraCapturePage = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-[90vh]  bg-black">
       <CameraCapture />
     </div>
   );
