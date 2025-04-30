@@ -281,7 +281,7 @@ const CameraCapture = () => {
           
           {/* Take picture button - Vertically centered on right side */}
           {isVideoReady && (
-            <div className="absolute right-8 top-1/2 transform md:-translate-y-1/2 translate-y-31.5 z-20 flex items-center space-x-3">
+            <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 flex items-center space-x-3">
               <div className="font-semibold text-sm tracking-tight leading-[14px] text-[#FCFCFC] hidden sm:block">TAKE PICTURE</div>
               <div className="transform hover:scale-105 ease-in-out duration-300">
                 <Image
@@ -293,6 +293,7 @@ const CameraCapture = () => {
                   className="w-16 h-16 cursor-pointer"
                 />
               </div>
+             
             </div>
           )}
 
@@ -321,11 +322,11 @@ const CameraCapture = () => {
           <div className="absolute text-sm leading-6 uppercase text-[#FCFCFC] top-40">GREAT SHOT!</div>
           
           {/* Preview controls overlay */}
-          <div className="absolute bottom-16 left-0 right-0 flex flex-col items-center z-20">
-            <h2 className="text-lg font-semibold mb-7 text-[#FCFCFC] drop-shadow-md">Preview</h2>
+          <div className="absolute bottom-40 sm:bottom-16 left-0 right-0 flex flex-col items-center z-20">
+            <h2 className="text-lg font-semibold mb-5 md:mb-7 text-[#FCFCFC] drop-shadow-md">Preview</h2>
             <div className="flex justify-center space-x-6">
               <button
-                className="px-6 py-2 bg-gray-200 text-gray-800 cursor-pointer hover:bg-gray-300 shadow-md text-sm"
+                className="px-4 py-1 bg-gray-200 text-gray-800 cursor-pointer hover:bg-gray-300 shadow-md text-sm"
                 onClick={resetCamera}
               >
                 Retake
