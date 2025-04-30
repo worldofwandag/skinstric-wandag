@@ -80,7 +80,7 @@ const DiamondButtons: React.FC<DiamondButtonsProps> = ({ diamondImageSrc }) => {
         <div className="flex items-center justify-center col-start-2">
           <Link href="/summary">
             <button
-              className="w-[153.88px] h-[153.88px] bg-gray-200 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 cursor-pointer font-semibold leading-[24px] tracking-tight uppercase"
+              className="w-[153.88px] h-[153.88px] bg-gray-200 hover:bg-gray-300 transform rotate-45 flex items-center justify-center -m-5 cursor-pointer font-semibold leading-[24px] tracking-tight uppercase hover:scale-[1.05] transition-transform duration-300"
               onMouseEnter={() => setHoveredButton("demographics")}
               onMouseLeave={() => setHoveredButton(null)}
             >

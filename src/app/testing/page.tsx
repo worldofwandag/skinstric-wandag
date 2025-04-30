@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useFormStatus } from "react-dom";
 import { useActionState } from "react";
 import BackBtn from "../components/ui/BackBtn";
-import ProcessBtn from "../components/ui/ProcessBtn";
+import AnimatedProcessBtn from "../components/ui/AnimatedProcessBtn";
 import LoadingDots from "../components/ui/LoadingDots";
 
 // Define the initial state for the form
@@ -278,10 +278,10 @@ export default function Page() {
         {state.step === 3 && (
           <div className="flex flex-col items-center gap-4 z-10">
             <p className="text-2xl font-normal text-[#1A1B1C] tracking-wide">
-              Thank you for submitting!
+              Thank you!
             </p>
             <p className="text-lg text-gray-600">
-              Ready for the result? Proceed for the next step
+              Proceed for the next step
             </p>
           </div>
         )}
@@ -311,24 +311,19 @@ export default function Page() {
       </div>
 
       {/* Buttons at bottom */}
-
-      {/* <div className="pt-4 md:pt-0 pb-8 bg-white sticky md:static bottom-30.5 mb-0 md:mb-0"> */}
-
-        <div className="absolute bottom-38.5 md:bottom-8 w-full flex justify-between md:px-9 px-13">
-          {/* BACK BUTTON */}
-          <Link className="inset-0" aria-label="Back" href="/">
-            <BackBtn />
+      <div className="absolute bottom-38.5 md:bottom-8 w-full flex justify-between md:px-9 px-13">
+        {/* BACK BUTTON */}
+        <Link className="inset-0" aria-label="Back" href="/">
+          <BackBtn />
+        </Link>
+        
+        {/* ANIMATED PROCEED BUTTON - only show when form is completed */}
+        {state.step === 3 && (
+          <Link href="/result" className="inline-block">
+            <AnimatedProcessBtn show={state.step === 3} />
           </Link>
-          
-          {/* PROCEED BUTTON - only show when form is completed */}
-          {state.step === 3 && (
-            <Link href="/result" className="">
-              <ProcessBtn />
-            </Link>
-          )}
-        </div>
-
-      {/* </div> */}
+        )}
+      </div>
     </div>
   );
 }
