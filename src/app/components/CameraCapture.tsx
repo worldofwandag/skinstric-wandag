@@ -281,8 +281,8 @@ const CameraCapture = () => {
           
           {/* Take picture button - Vertically centered on right side */}
           {isVideoReady && (
-            <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 flex items-center space-x-3">
-              <div className="font-semibold text-sm tracking-tight leading-[14px] text-[#FCFCFC]">TAKE PICTURE</div>
+            <div className="absolute right-8 top-1/2 transform md:-translate-y-1/2 translate-y-31.5 z-20 flex items-center space-x-3">
+              <div className="font-semibold text-sm tracking-tight leading-[14px] text-[#FCFCFC] hidden sm:block">TAKE PICTURE</div>
               <div className="transform hover:scale-105 ease-in-out duration-300">
                 <Image
                   src={TakePictureIcon}
@@ -297,7 +297,7 @@ const CameraCapture = () => {
           )}
 
           {/* Tips text - Bottom of screen */}
-          <div className="absolute bottom-16 left-0 right-0 text-center z-20">
+          <div className="absolute bottom-30 sm:bottom-40 left-0 right-0 text-center z-20">
             <p className="text-sm mb-2 font-normal leading-6 text-[#FCFCFC]">
               TO GET BETTER RESULTS MAKE SURE TO HAVE
             </p>
@@ -343,7 +343,7 @@ const CameraCapture = () => {
       )}
 
       {/* Back button */}
-      <div className="absolute md:bottom-8 bottom-40 left-8 z-20">
+      <div className="absolute md:bottom-8 bottom-60 left-8 z-20">
         <Link href="/result">
           <BackBtnWhite />
         </Link>

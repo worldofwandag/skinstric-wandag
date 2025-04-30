@@ -21,7 +21,7 @@ const CameraLoading = () => {
   }, [router]);
   
   return (
-    <div className="flex flex-col items-center justify-center h-[70vh]">
+    <div className="flex flex-col items-center justify-center h-[70vh] overflow-auto">
       <div className="flex-0 flex flex-col md:flex-row items-center justify-center relative">
         <div className="w-[270px] h-[270px] md:w-[482px] md:h-[482px]" />
         
